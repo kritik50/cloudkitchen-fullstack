@@ -1,0 +1,949 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* ------------------------------------------------------------------------------------------NAVBAR--------------------------------------------------------------------------------------- */
+:root {
+  --bg-color: #0f1115;      
+  --text-main: #ffffff;    
+  --primary: #ccff00;       
+  --primary-hover: #b3e600;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 60px; 
+  min-height: 60px; 
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Ensure it stays above everything */
+  
+  /* DARK GLASS EFFECT */
+  background: rgba(15, 17, 21, 0.85); 
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+}
+
+/* ---------- LOGO AREA ---------- */
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo {
+  font-size: 22px; /* Was 26px */
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+/* Target the span in the React code for the Neon color */
+.logo span {
+  color: var(--primary);
+}
+
+.tagline {
+  margin-top: 0px; /* Tighter spacing */
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.5); 
+  font-weight: 600;
+  text-transform: uppercase;
+}
+/* ---------- NAVIGATION LINKS ---------- */
+
+.nav-center {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-center li {
+  cursor: pointer;
+  position: relative;
+  color: var(--text-main);
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.3s ease;
+}
+
+/* Hover Effect: Text turns Neon */
+.nav-center li:hover {
+  color: var(--primary);
+}
+
+.nav-center .active {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Underline Animation */
+.nav-center li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: var(--primary); /* Neon Underline */
+  transition: width 0.3s ease;
+  box-shadow: 0px 0px 8px var(--primary); /* Glowing line */
+}
+
+.nav-center li:hover::after {
+  width: 100%;
+}
+
+/* ---------- CTA BUTTON ---------- */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.order-btn {
+  padding: 8px 20px; /* Was 12px 24px */
+  font-size: 13px;   /* Slightly smaller text */
+  border-radius: 6px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: var(--primary);
+  color: #000000;
+  transition: all 0.3s ease;
+}
+
+.order-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 15px rgba(204, 255, 0, 0.3); /* Green Glow */
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .nav-center {
+    display: none; /* Hide links on mobile for now */
+  }
+  .navbar {
+    padding: 15px 20px;
+  }
+}
+
+/*--------------------------------------------------------------------------------------------- hero -------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------- hero -------------------------------------------------------------------------------------------*/
+
+:root {
+  --bg-color: #0f1115;      /* Deep dark background */
+  --text-main: #ffffff;     /* White text */
+  --text-muted: #a1a1aa;    /* Grey text for descriptions */
+  --primary: #ccff00;       /* Neon Volt Green for "Gym" vibes */
+  --primary-hover: #b3e600;
+}
+
+.hero {
+  position: relative;
+  background-color: var(--bg-color);
+  min-height: 90vh;         /* Take up most of the screen */
+  display: flex;
+  align-items: center;      /* Vertically center everything */
+  justify-content: center;
+  padding: 20px 5%;         /* 5% spacing on sides */
+  overflow: hidden;
+}
+
+/* Container to hold the split layout */
+.hero-container {
+  display: flex;
+  flex-direction: row;      /* Side by Side layout */
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  width: 100%;
+  gap: 40px;
+}
+
+/* ---------- TEXT LAYER (Left Side) ---------- */
+
+.hero-content {
+  flex: 1;                  /* Takes up 50% space */
+  text-align: left;         /* Align text to left */
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--text-main);
+  margin-bottom: 24px;
+  text-transform: uppercase; /* Makes it feel stronger/gym-like */
+}
+
+/* Highlight a specific word if wrapped in <span> */
+.hero h1 span {
+  color: var(--primary); 
+}
+
+.hero p {
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin-bottom: 40px;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.primary-btn {
+  padding: 16px 32px;
+  border-radius: 8px; /* Slightly sharper corners fit "Gym" better than round */
+  border: none;
+  cursor: pointer;
+  background: var(--primary);
+  color: black;
+  font-weight: 700;
+  font-size: 16px;
+  transition: transform 0.2s ease, background 0.2s;
+}
+
+.primary-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+}
+
+.secondary-btn {
+  padding: 16px 32px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  background: transparent;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  transition: border 0.2s;
+}
+
+.secondary-btn:hover {
+  border-color: white;
+}
+
+/* ---------- IMAGE LAYER (Right Side) ---------- */
+
+.hero-image-wrapper {
+  flex: 1;                  /* Takes up 50% space */
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+/* The Glow Effect behind the bowl */
+.hero-image-wrapper::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(204, 255, 0, 0.15) 0%, rgba(0,0,0,0) 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.hero-image-main {
+  width: 100%;
+  max-width: 550px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+  /* Make the food pop */
+  filter: drop-shadow(0px 20px 40px rgba(0,0,0,0.6)); 
+}
+
+/* Floating Badge (e.g. "45g Protein") */
+.floating-badge {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  padding: 12px 24px;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  z-index: 3;
+  box-shadow: 0px 10px 20px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ---------- RESPONSIVE (Mobile) ---------- */
+
+@media (max-width: 968px) {
+  .hero-container {
+    flex-direction: column-reverse; /* Put text ON TOP of image on mobile? Or below? Usually Text on top is better */
+    text-align: center;
+    padding-top: 40px;
+  }
+  
+  .hero-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .hero h1 {
+    font-size: 42px;
+  }
+  
+  .hero-image-main {
+    max-width: 350px;
+  }
+  
+  .floating-badge {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -20px;
+    width: max-content;
+  }
+}
+
+
+
+
+/*------------------------------------------------------------------------------------------------- WHO IS THIS FOR------------------------------------------------------------------------------ */
+:root {
+  --bg-color: #0f1115;      
+  --card-bg: #15171c;       /* Slightly lighter than main bg */
+  --text-main: #ffffff;    
+  --text-muted: #a1a1aa;
+  --primary: #ccff00;       
+}
+
+.who-section {
+  padding: 100px 5%; /* More breathing room */
+  text-align: center;
+  background-color: var(--bg-color);
+  /* Optional: Subtle mesh gradient for depth */
+  background-image: radial-gradient(circle at 50% 0%, rgba(204, 255, 0, 0.03) 0%, rgba(0,0,0,0) 50%);
+}
+
+.who-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+/* Make "For?" pop with neon */
+.who-title span {
+  color: var(--primary);
+}
+
+.who-subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 60px;
+  line-height: 1.6;
+}
+
+/* ---------- CARDS GRID ---------- */
+
+.who-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive Grid */
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.who-card {
+  background: var(--card-bg);
+  padding: 40px 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Very subtle border */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  text-align: left; /* Left align looks more premium usually */
+}
+
+.who-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary); /* Neon Border on Hover */
+  box-shadow: 0px 10px 30px rgba(204, 255, 0, 0.1); /* Neon Glow */
+}
+
+/* ---------- CARD CONTENT ---------- */
+
+.who-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  font-size: 28px;
+  transition: background 0.3s ease;
+}
+
+.who-card:hover .who-icon-wrapper {
+  background: var(--primary); /* Icon background turns neon */
+  color: #000; /* Icon turns black */
+}
+
+.who-card h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.who-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Optional: Add a subtle number in the background */
+.card-number {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 80px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03); /* Almost invisible */
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .who-title {
+    font-size: 36px;
+  }
+  .who-cards {
+    grid-template-columns: 1fr; /* Stack on mobile */
+  }
+}
+
+
+
+/*---------------------------------------------------------------------------------------------------------- WHY CHOOSE – SPLIT LAYOUT--------------------------------------------------------------------------- */
+:root {
+  --bg-color: #0f1115;
+  --card-bg: #15171c;
+  --primary: #ccff00;
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+}
+
+.why-section {
+  width: 100vw; 
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background-color: var(--bg-color);
+  padding: 100px 0;
+  overflow: hidden;
+}
+
+.why-section.split {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* Grid takes more space */
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- LEFT SIDE (THE GRID) ---------- */
+
+.why-left {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.why-box {
+  padding: 40px 30px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Subtle border */
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hover Effect: Lift & Glow */
+.why-box:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(204, 255, 0, 0.1);
+}
+
+/* OFFSET THE GRID COLUMNS FOR A MODERN LOOK */
+/* This pushes the 2nd column down slightly to break the boxy look */
+.why-left .why-box:nth-child(even) {
+  transform: translateY(30px);
+}
+
+/* Fix hover for the offset items */
+.why-left .why-box:nth-child(even):hover {
+  transform: translateY(22px); /* 30px - 8px lift */
+}
+
+/* ---------- ICONS ---------- */
+
+.why-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 28px;
+  margin-bottom: 24px;
+  /* Dark Glass Style */
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.why-box:hover .why-icon {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary);
+}
+
+/* ---------- CARD TEXT ---------- */
+
+.why-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.why-box p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ---------- RIGHT SIDE (THE TEXT) ---------- */
+
+.why-right {
+  text-align: left;
+  padding-left: 20px;
+}
+
+/* The Decorative Line */
+.why-right::before {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: var(--primary); /* Neon Line */
+  margin-bottom: 30px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+.why-title {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+  color: var(--text-main);
+  text-transform: uppercase;
+}
+
+.why-title span {
+  color: var(--text-muted); /* Or keep white */
+}
+
+.why-subtitle {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 450px;
+}
+
+.why-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1200px; 
+  margin: 0 auto;    
+  padding: 0 40px;   /* Add padding so content doesn't touch edges on smaller screens */
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 968px) {
+  .why-section.split {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .why-left {
+    order: 2; /* Put grid below text on mobile */
+  }
+
+  .why-right {
+    order: 1;
+    text-align: center;
+    padding: 0;
+  }
+  
+  .why-right::before {
+    margin: 0 auto 30px; /* Center the line */
+  }
+
+  /* Remove the offset on mobile */
+  .why-left .why-box:nth-child(even) {
+    transform: translateY(0);
+  }
+  
+  .why-left .why-box:nth-child(even):hover {
+    transform: translateY(-8px);
+  }
+}
+
+
+/* ---------------------------------------------------------------------------------------------REVIEWS SECTION------------------------------------------------------------------------------------ */
+:root {
+  --bg-color: #0f1115;
+  --card-bg: #15171c;
+  --primary: #ccff00;
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+}
+
+.reviews-section {
+  /* 1. Full Width Breakout */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  
+  padding: 120px 0;
+  text-align: center;
+  /* Dark Gradient Background */
+  background: linear-gradient(to bottom, var(--bg-color), #050505);
+}
+
+.reviews-title {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+}
+
+.reviews-subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 60px;
+}
+
+/* GRID */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 40px; /* Prevent edge touching */
+}
+
+/* CARD */
+.review-card {
+  background: var(--card-bg);
+  padding: 36px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: left;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(204, 255, 0, 0.3);
+}
+
+/* Giant Quote Icon for style */
+.review-card::before {
+  content: "“";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-size: 100px;
+  color: rgba(255, 255, 255, 0.03);
+  font-family: serif;
+  pointer-events: none;
+}
+
+.stars {
+  font-size: 18px;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  color: var(--primary); /* Neon Stars */
+  text-shadow: 0 0 10px rgba(204, 255, 0, 0.4);
+}
+
+.review-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ddd;
+  margin-bottom: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* FOOTER */
+.review-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.review-name {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 15px;
+}
+
+/* TAGS - Dark Mode Versions */
+.review-tag {
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Custom colors for tags to pop against black */
+.review-tag.fat {
+  background: rgba(255, 77, 77, 0.15);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+}
+
+.review-tag.muscle {
+  background: rgba(51, 153, 255, 0.15);
+  color: #3399ff;
+  border: 1px solid rgba(51, 153, 255, 0.3);
+}
+
+.review-tag.balanced {
+  background: rgba(204, 255, 0, 0.15);
+  color: var(--primary);
+  border: 1px solid rgba(204, 255, 0, 0.3);
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .reviews-section {
+    padding: 80px 0;
+  }
+
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .reviews-title {
+    font-size: 36px;
+  }
+}
+
+/*------------------------------------------------------------------------------------------------- FOOTER ---------------------------------------------------------------------------*/
+:root {
+  --bg-footer: #050505;     /* Darker than the rest of the site */
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  --primary: #ccff00;       /* Neon Green */
+}
+
+.footer {
+  /* 1. Full Width Breakout (Prevents white bars) */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  
+  background: var(--bg-footer);
+  color: var(--text-main);
+  padding: 100px 0 40px; /* Top padding for breathing room */
+  font-family: sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* CONTAINER (Centers content) */
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+
+/* BRAND COLUMN */
+.footer-brand {
+  max-width: 350px;
+}
+
+.footer-logo {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  color: #fff;
+}
+
+.footer-logo span {
+  color: var(--primary); /* Neon Color */
+}
+
+.footer-tagline {
+  font-size: 16px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* LINKS COLUMNS */
+.footer-links {
+  display: flex;
+  gap: 80px;
+}
+
+.footer-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  margin-bottom: 24px;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover Effect: Text turns White, moves slightly right */
+.footer-col li:hover {
+  color: var(--primary);
+  transform: translateX(5px);
+}
+
+/* CONTACT INFO SPECIFIC */
+.footer-col li.contact-info {
+  cursor: default; /* Don't look clickable if not links */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-col li.contact-info:hover {
+  transform: none;
+  color: var(--text-muted);
+}
+
+/* BOTTOM BAR */
+.footer-bottom {
+  max-width: 1200px;
+  margin: 80px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .footer {
+    padding: 60px 0 30px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 24px;
+  }
+
+  .footer-links {
+    flex-wrap: wrap; /* Allow columns to wrap on very small screens */
+    gap: 40px;
+    justify-content: space-between;
+  }
+}
