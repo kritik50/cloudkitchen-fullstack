@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import bowl from "../assets/bowl.jpg";
 import BASE_URL from "../services/api";
-// Make sure to import your CSS file here if you haven't already
+
 // import './Hero.css'; 
 const Hero = () => {
   const [hero, setHero] = useState(null);
