@@ -1,185 +1,238 @@
-:root {
-  --bg-color: #0f1115;      
-  --card-bg: #15171c;
-  --primary: #ccff00;       
-  --text-main: #ffffff;
-}
-
-/* SECTION */
+/* ── SECTION ── */
 .meals-section {
-  padding: 80px 0;
-  background-color: var(--bg-color); /* Dark Background */
+  padding: 120px 0 100px;
+  background-color: var(--bg-color, #0a0b0d);
   text-align: center;
   overflow: hidden;
   position: relative;
 }
 
-/* Fades on the sides to make the carousel look infinite */
-.meals-section::before,
-.meals-section::after {
-  content: "";
+/* Side fade masks — done with divs so they don't conflict with ::before/::after */
+.meals-fade {
   position: absolute;
   top: 0;
-  width: 150px;
+  width: 180px;
   height: 100%;
-  z-index: 2;
+  z-index: 10;
   pointer-events: none;
 }
 
-.meals-section::before {
+.meals-fade--left {
   left: 0;
-  background: linear-gradient(to right, var(--bg-color), transparent);
+  background: linear-gradient(to right, var(--bg-color, #0a0b0d) 20%, transparent);
 }
 
-.meals-section::after {
+.meals-fade--right {
   right: 0;
-  background: linear-gradient(to left, var(--bg-color), transparent);
+  background: linear-gradient(to left, var(--bg-color, #0a0b0d) 20%, transparent);
 }
 
-/* TITLES */
-.meals-title {
-  font-size: 48px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  color: var(--text-main);
+/* ── HEADER ── */
+.meals-header {
+  padding: 0 5%;
+  margin-bottom: 56px;
+}
+
+.meals-eyebrow {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  color: var(--primary, #d4f53c);
+  margin-bottom: 14px;
 }
 
-.meals-title span {
-  color: var(--primary);
+.meals-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 60px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1.0;
+  text-transform: uppercase;
+  color: var(--text-main, #f0f0ed);
+  margin-bottom: 14px;
+}
+
+.meals-title em {
+  font-style: normal;
+  color: var(--primary, #d4f53c);
 }
 
 .meals-subtitle {
+  font-family: 'DM Sans', sans-serif;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
-  margin-bottom: 60px;
+  font-weight: 300;
+  color: rgba(240, 240, 237, 0.45);
+  line-height: 1.6;
 }
 
-/* MARQUEE CONTAINER */
+/* ── MARQUEE ── */
 .marquee {
   overflow: hidden;
   display: flex;
   user-select: none;
-  gap: 30px;
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .marquee-track {
   display: flex;
-  gap: 30px;
-  animation: scroll 40s linear infinite;
-  padding: 20px 0; /* Space for hover shadows */
+  gap: 20px;
+  padding: 20px 0 30px;
+  animation: marquee-scroll 36s linear infinite;
+  will-change: transform;
 }
 
-/* Pause animation on hover */
 .marquee:hover .marquee-track {
   animation-play-state: paused;
 }
 
-/* ANIMATION */
-@keyframes scroll {
+@keyframes marquee-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(-100%); } /* Ensure you duplicate items enough to fill screen */
+  to   { transform: translateX(-33.333%); }
 }
 
-/* CARD Wrapper */
-.meal-wrapper {
-  width: 320px;
-  height: 450px;
+/* ── CARD ── */
+.meal-card {
+  width: 300px;
+  height: 420px;
   flex-shrink: 0;
   position: relative;
-  border-radius: 20px;
+  border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: transform 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
 }
 
-/* Hover Effect: Pop up and Glow */
-.meal-wrapper:hover {
+.meal-card:hover {
   transform: translateY(-10px) scale(1.02);
-  border-color: var(--primary);
-  box-shadow: 0 15px 40px rgba(204, 255, 0, 0.15);
+  border-color: rgba(212, 245, 60, 0.4);
+  box-shadow: 0 20px 48px rgba(212, 245, 60, 0.1), 0 4px 12px rgba(0,0,0,0.6);
   z-index: 10;
 }
 
-/* IMAGE */
-.meal-wrapper img {
+/* ── TAG ── */
+.meal-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 6;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--primary, #d4f53c);
+  background: rgba(10, 11, 13, 0.72);
+  border: 1px solid rgba(212, 245, 60, 0.25);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* ── IMAGE ── */
+.meal-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  display: block;
 }
 
-.meal-wrapper:hover img {
-  transform: scale(1.1); /* Slight zoom on hover */
+.meal-card:hover .meal-img {
+  transform: scale(1.08);
 }
 
-/* OVERLAY (Gradient to make text readable) */
-.overlay {
+/* ── OVERLAY ── */
+.meal-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to top, rgba(0,0,0,0.95) 10%, rgba(0,0,0,0.5) 40%, transparent 100%);
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 7, 8, 0.97) 0%,
+    rgba(6, 7, 8, 0.65) 45%,
+    transparent 75%
+  );
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 24px;
-  transition: all 0.3s ease;
+  padding: 22px;
+  transition: background 0.3s ease;
 }
 
-/* CONTENT INSIDE CARD */
-.meal-info h4 {
-  color: white;
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-}
-
-.macros {
-  color: var(--primary); /* Neon Text */
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 8px;
+/* ── CARD BODY ── */
+.meal-body {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 0;
 }
 
-.desc {
-  color: #ccc;
-  font-size: 14px;
-  line-height: 1.4;
-  max-height: 0; /* Hidden by default */
+.meal-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #f0f0ed;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.meal-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(240, 240, 237, 0.5);
+  font-weight: 300;
+
+  /* Hidden by default, revealed on hover */
+  max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: max-height 0.4s ease, opacity 0.35s ease, margin 0.35s ease;
+  margin-bottom: 0;
 }
 
-/* Reveal description on hover */
-.meal-wrapper:hover .desc {
+.meal-card:hover .meal-desc {
   max-height: 60px;
   opacity: 1;
-  margin-top: 8px;
+  margin-bottom: 14px;
 }
 
-/* PROTEIN BADGE (Top Right) */
-.protein-badge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  border: 1px solid var(--primary);
-  color: var(--primary);
-  padding: 6px 12px;
-  border-radius: 50px;
-  font-size: 12px;
+/* ── MACRO STRIP ── */
+.meal-macros {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 10px;
+}
+
+.meal-macro {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meal-macro-val {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
   font-weight: 800;
-  z-index: 5;
+  color: var(--primary, #d4f53c);
+  line-height: 1;
+}
+
+.meal-macro-lbl {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
+  color: rgba(240, 240, 237, 0.38);
+}
+
+.meal-macro-sep {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.08);
 }

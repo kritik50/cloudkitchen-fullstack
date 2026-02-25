@@ -1,34 +1,67 @@
-import React from 'react';
-// import './Navbar.css'; 
+import { useState, useEffect } from "react";
+// import "./Navbar.css";
 
-const Navbar = () => {
+const links = ["Home", "Menu", "Meal Plans", "About"];
+
+export default function Navbar() {
+  const [active, setActive] = useState("Home");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="navbar">
-      
-      {/* LEFT: Logo */}
-      <div className="nav-left">
-        <div className="logo-wrap">
-          {/* Split for color styling */}
-          <h2 className="logo">Gym<span>Bites</span></h2>
-          <span className="tagline">Clean Fuel ⚡</span>
-        </div>
-      </div>
+    <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
 
-      {/* CENTER: Links */}
-      <ul className="nav-center">
-        <li className="active">Home</li>
-        <li>Menu</li>
-        <li>Meal Plans</li>
-        <li>About</li>
+      {/* Logo */}
+      <a className="nb-logo">
+        <span className="nb-logo-wordmark">
+          Gym<em>Bites</em>
+        </span>
+        <span className="nb-logo-sub">Cloud Kitchen</span>
+      </a>
+
+      {/* Nav Links */}
+      <ul className="nb-links">
+        {links.map((link) => (
+          <li key={link}>
+            <button
+              className={active === link ? "nb-link nb-link--active" : "nb-link"}
+              onClick={() => setActive(link)}
+            >
+              {link}
+            </button>
+          </li>
+        ))}
       </ul>
 
-      {/* RIGHT: CTA */}
-      <div className="nav-right">
+      {/* Right Cluster */}
+      <div className="nb-right">
+
+        {/* Macro Badge */}
+        <div className="macro-badge">
+          <div className="macro-item">
+            <span className="macro-val">42g</span>
+            <span className="macro-lbl">Protein</span>
+          </div>
+          <div className="macro-sep" />
+          <div className="macro-item">
+            <span className="macro-val">520</span>
+            <span className="macro-lbl">Kcal</span>
+          </div>
+          <div className="macro-sep" />
+          <div className="macro-item">
+            <span className="macro-val">8g</span>
+            <span className="macro-lbl">Fat</span>
+          </div>
+        </div>
+
         <button className="order-btn">Order Now</button>
       </div>
-      
+
     </nav>
   );
-};
-
-export default Navbar;
+}

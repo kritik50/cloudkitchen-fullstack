@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import bowl from "../assets/bowl.jpg";
 import BASE_URL from "../services/api";
 
-// import './Hero.css'; 
+
 const Hero = () => {
   const [hero, setHero] = useState(null);
 
@@ -13,37 +13,101 @@ const Hero = () => {
       .catch(console.error);
   }, []);
 
-  // While loading, you might want a simple loader or return null
   if (!hero) return null;
 
   return (
     <section className="hero">
+
+      {/* Background grain overlay */}
+      <div className="hero-grain" />
+
+      {/* Ambient glow blobs */}
+      <div className="hero-blob hero-blob--left" />
+      <div className="hero-blob hero-blob--right" />
+
       <div className="hero-container">
-        
-        {/* Left Side: Content */}
+
+        {/* ── LEFT: Content ── */}
         <div className="hero-content">
-          {/* I added a span around "Goals" or key words if your API supports it, 
-              otherwise standard text is fine */}
-          <h1>
-            {hero.title || "Clean Meals That Hit Your Goals"}
+
+          <div className="hero-pill">
+            <span className="hero-pill-dot" />
+            Freshly Prepared · Daily
+          </div>
+
+          <h1 className="hero-title">
+            {hero.title || (
+              <>
+                Fuel Built<br />
+                For <em>Athletes</em>
+              </>
+            )}
           </h1>
-          <p>{hero.subtitle}</p>
+
+          <p className="hero-sub">
+            {hero.subtitle ||
+              "Performance-grade meals crafted for your macros — no compromises, no guesswork."}
+          </p>
+
+          <div className="hero-stats">
+            <div className="hero-stat">
+              <span className="hero-stat-val">40+</span>
+              <span className="hero-stat-lbl">Dishes</span>
+            </div>
+            <div className="hero-stat-sep" />
+            <div className="hero-stat">
+              <span className="hero-stat-val">3x</span>
+              <span className="hero-stat-lbl">Daily cuts</span>
+            </div>
+            <div className="hero-stat-sep" />
+            <div className="hero-stat">
+              <span className="hero-stat-val">0g</span>
+              <span className="hero-stat-lbl">Trans fat</span>
+            </div>
+          </div>
 
           <div className="hero-buttons">
-            <button className="primary-btn">{hero.ctaPrimary || "View Menu"}</button>
-            <button className="secondary-btn">{hero.ctaSecondary || "Custom Plan"}</button>
+            <button className="primary-btn">
+              {hero.ctaPrimary || "View Menu"}
+              <span className="primary-btn-arrow">→</span>
+            </button>
+            <button className="secondary-btn">
+              {hero.ctaSecondary || "Build My Plan"}
+            </button>
           </div>
+
         </div>
 
-        {/* Right Side: Image */}
+        {/* ── RIGHT: Image ── */}
         <div className="hero-image-wrapper">
-          <img src={bowl} alt="High protein meal" className="hero-image-main" />
-          
-          {/* This is the badge that sells the "Gym" aspect */}
-          <div className="floating-badge">
-            <span className="dot"></span>
-            <span>High Protein: 45g</span>
+
+          {/* Rotating ring */}
+          <div className="hero-ring" />
+
+          <img
+            src={bowl}
+            alt="High protein meal"
+            className="hero-image-main"
+          />
+
+          {/* Protein badge */}
+          <div className="hero-badge hero-badge--protein">
+            <span className="hero-badge-icon">⚡</span>
+            <div>
+              <span className="hero-badge-val">45g</span>
+              <span className="hero-badge-lbl">Protein</span>
+            </div>
           </div>
+
+          {/* Calorie badge */}
+          <div className="hero-badge hero-badge--cal">
+            <span className="hero-badge-icon">🔥</span>
+            <div>
+              <span className="hero-badge-val">520</span>
+              <span className="hero-badge-lbl">Kcal</span>
+            </div>
+          </div>
+
         </div>
 
       </div>
