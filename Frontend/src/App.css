@@ -267,7 +267,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 5%;
+  padding: 15px 5%;
   overflow: hidden;
   font-family: 'Outfit', sans-serif;
 }
@@ -618,7 +618,7 @@ body {
 
 .who-section {
   position: relative;
-  padding: 120px 5%;
+  padding: 50px 5%;
   text-align: center;
   background-color: var(--bg-color);
   overflow: hidden;
@@ -861,7 +861,7 @@ body {
 .why-section {
   position: relative;
   background-color: var(--bg-color);
-  padding: 120px 0;
+  padding: 50px 0;
   overflow: hidden;
 }
 
@@ -1375,7 +1375,7 @@ body {
 
 .reviews-section {
   position: relative;
-  padding: 120px 0 100px;
+  padding: 50px 0 100px;
   text-align: center;
   background: linear-gradient(to bottom, var(--bg-color), #060a0f);
   overflow: hidden;
@@ -1709,7 +1709,7 @@ body {
   position: relative;
   background: var(--bg-footer);
   color: var(--text-main);
-  padding: 80px 0 0;
+  padding: 40px 0 0;
   font-family: 'Outfit', sans-serif;
   border-top: 1px solid var(--border);
 }
