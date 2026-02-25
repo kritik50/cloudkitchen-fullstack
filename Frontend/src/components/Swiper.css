@@ -1,13 +1,13 @@
 /* ── SECTION ── */
 .meals-section {
   padding: 120px 0 100px;
-  background-color: var(--bg-color, #0a0b0d);
+  background-color: var(--bg-color, #faf7f2);
   text-align: center;
   overflow: hidden;
   position: relative;
 }
 
-/* Side fade masks — done with divs so they don't conflict with ::before/::after */
+/* Side fade masks */
 .meals-fade {
   position: absolute;
   top: 0;
@@ -19,12 +19,12 @@
 
 .meals-fade--left {
   left: 0;
-  background: linear-gradient(to right, var(--bg-color, #0a0b0d) 20%, transparent);
+  background: linear-gradient(to right, var(--bg-color, #faf7f2) 20%, transparent);
 }
 
 .meals-fade--right {
   right: 0;
-  background: linear-gradient(to left, var(--bg-color, #0a0b0d) 20%, transparent);
+  background: linear-gradient(to left, var(--bg-color, #faf7f2) 20%, transparent);
 }
 
 /* ── HEADER ── */
@@ -35,35 +35,36 @@
 
 .meals-eyebrow {
   display: inline-block;
+  font-family: 'Syne', sans-serif;
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--primary, #d4f53c);
+  color: var(--primary, #c45d3e);
   margin-bottom: 14px;
 }
 
 .meals-title {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Syne', sans-serif;
   font-size: 60px;
-  font-weight: 900;
-  letter-spacing: -1px;
+  font-weight: 800;
+  letter-spacing: -2px;
   line-height: 1.0;
   text-transform: uppercase;
-  color: var(--text-main, #f0f0ed);
+  color: var(--text-main, #1a1410);
   margin-bottom: 14px;
 }
 
 .meals-title em {
   font-style: normal;
-  color: var(--primary, #d4f53c);
+  color: var(--primary, #c45d3e);
 }
 
 .meals-subtitle {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 16px;
-  font-weight: 300;
-  color: rgba(240, 240, 237, 0.45);
+  font-weight: 400;
+  color: var(--text-muted, rgba(90, 70, 50, 0.55));
   line-height: 1.6;
 }
 
@@ -97,17 +98,18 @@
   height: 420px;
   flex-shrink: 0;
   position: relative;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--border, rgba(180, 155, 120, 0.15));
+  box-shadow: 0 4px 20px rgba(120, 90, 60, 0.08);
   transition: transform 0.32s ease, border-color 0.32s ease, box-shadow 0.32s ease;
 }
 
 .meal-card:hover {
   transform: translateY(-10px) scale(1.02);
-  border-color: rgba(212, 245, 60, 0.4);
-  box-shadow: 0 20px 48px rgba(212, 245, 60, 0.1), 0 4px 12px rgba(0,0,0,0.6);
+  border-color: var(--border-hover, rgba(180, 155, 120, 0.35));
+  box-shadow: 0 20px 60px rgba(120, 90, 60, 0.12);
   z-index: 10;
 }
 
@@ -117,17 +119,16 @@
   top: 14px;
   left: 14px;
   z-index: 6;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--primary, #d4f53c);
-  background: rgba(10, 11, 13, 0.72);
-  border: 1px solid rgba(212, 245, 60, 0.25);
-  backdrop-filter: blur(8px);
-  padding: 4px 10px;
-  border-radius: 4px;
+  color: #ffffff;
+  background: var(--primary, #c45d3e);
+  border: none;
+  padding: 5px 12px;
+  border-radius: 8px;
 }
 
 /* ── IMAGE ── */
@@ -149,8 +150,8 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(6, 7, 8, 0.97) 0%,
-    rgba(6, 7, 8, 0.65) 45%,
+    rgba(20, 15, 10, 0.95) 0%,
+    rgba(20, 15, 10, 0.5) 45%,
     transparent 75%
   );
   display: flex;
@@ -168,24 +169,22 @@
 }
 
 .meal-name {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 22px;
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: #f0f0ed;
+  letter-spacing: 0px;
+  color: #f5f0ea;
   margin-bottom: 6px;
   line-height: 1.1;
 }
 
 .meal-desc {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 12px;
   line-height: 1.55;
-  color: rgba(240, 240, 237, 0.5);
+  color: rgba(245, 240, 234, 0.55);
   font-weight: 300;
-
-  /* Hidden by default, revealed on hover */
   max-height: 0;
   opacity: 0;
   overflow: hidden;
@@ -205,7 +204,7 @@
   align-items: center;
   gap: 12px;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(245, 240, 234, 0.1);
   margin-top: 10px;
 }
 
@@ -216,23 +215,25 @@
 }
 
 .meal-macro-val {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'DM Mono', monospace;
   font-size: 16px;
-  font-weight: 800;
-  color: var(--primary, #d4f53c);
+  font-weight: 500;
+  color: #e8a07a;
   line-height: 1;
+  letter-spacing: -0.3px;
 }
 
 .meal-macro-lbl {
+  font-family: 'Syne', sans-serif;
   font-size: 8px;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: rgba(240, 240, 237, 0.38);
+  color: rgba(245, 240, 234, 0.4);
 }
 
 .meal-macro-sep {
   width: 1px;
   height: 22px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(245, 240, 234, 0.1);
 }

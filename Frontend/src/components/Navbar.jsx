@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-// import "./Navbar.css";
 
 const links = ["Home", "Menu", "Meal Plans", "About"];
 
 export default function Navbar() {
   const [active, setActive] = useState("Home");
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -17,7 +17,7 @@ export default function Navbar() {
     <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
 
       {/* Logo */}
-      <a className="nb-logo">
+      <a className="nb-logo" href="#">
         <span className="nb-logo-wordmark">
           Gym<em>Bites</em>
         </span>
