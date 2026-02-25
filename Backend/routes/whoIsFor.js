@@ -4,7 +4,7 @@ const db = require("../firebase/firebase");
 
 router.get("/wif", async (req, res) => {
   try {
-    const doc = await db.collection("homepage").doc("whoIsFor").get();
+    const doc = await db.collection("homepage").doc("wif").get(); //wif = whoisfor section
 
     if (!doc.exists) {
       return res.status(404).json({ message: "whoIsFor content not found" });

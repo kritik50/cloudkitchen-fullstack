@@ -4,7 +4,7 @@ const db = require("../firebase/firebase");
 
 router.get("/wcg", async (req, res) => {
   try {
-    const doc = await db.collection("homepage").doc("whyChoose").get();
+    const doc = await db.collection("homepage").doc("whyChooseUs").get();
 
     if (!doc.exists) {
       return res.status(404).json({ message: "whyChoose content not found" });
