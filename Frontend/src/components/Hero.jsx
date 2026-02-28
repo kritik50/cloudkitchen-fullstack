@@ -1,44 +1,47 @@
 import { useEffect, useState } from "react";
 import bowl from "../assets/bowl.jpg";
 import BASE_URL from "../services/api";
-
+import { Fragment } from "react";
 
 const Hero = () => {
   const [hero, setHero] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetch(`${BASE_URL}/api/homepage/hero`)
-      .then((res) => res.json())
-      .then((data) => setHero(data))
-      .catch(console.error);
+    const fetchHero = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homepage/hero`);
+        const data = await response.json();
+        setHero(data);
+      } catch (error) {
+        console.error("Error fetching hero:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHero();
   }, []);
 
-  if (!hero) return null;
+  if (loading) return <p>Working on it.....</p>;
 
   return (
     <section className="hero">
-
-      {/* Background grain overlay */}
       <div className="hero-grain" />
-
-      {/* Ambient glow blobs */}
       <div className="hero-blob hero-blob--left" />
       <div className="hero-blob hero-blob--right" />
 
       <div className="hero-container">
-
-        {/* ── LEFT: Content ── */}
         <div className="hero-content">
-
           <div className="hero-pill">
             <span className="hero-pill-dot" />
-            Freshly Prepared · Daily
+            {hero.topBadge}
           </div>
 
           <h1 className="hero-title">
             {hero.title || (
               <>
-                Fuel Built<br />
+                Fuel Built
+                <br />
                 For <em>Athletes</em>
               </>
             )}
@@ -50,47 +53,36 @@ const Hero = () => {
           </p>
 
           <div className="hero-stats">
-            <div className="hero-stat">
-              <span className="hero-stat-val">40+</span>
-              <span className="hero-stat-lbl">Dishes</span>
-            </div>
-            <div className="hero-stat-sep" />
-            <div className="hero-stat">
-              <span className="hero-stat-val">3x</span>
-              <span className="hero-stat-lbl">Daily cuts</span>
-            </div>
-            <div className="hero-stat-sep" />
-            <div className="hero-stat">
-              <span className="hero-stat-val">0g</span>
-              <span className="hero-stat-lbl">Trans fat</span>
-            </div>
+            {hero.stats?.map((stat, index) => (
+              <Fragment key={stat.label}>
+                <div className="hero-stat">
+                  <span className="hero-stat-val">{stat.value}</span>
+                  <span className="hero-stat-lbl">{stat.label}</span>
+                </div>
+
+                {index < hero.stats.length - 1 && (
+                  <div className="hero-stat-sep" />
+                )}
+              </Fragment>
+            ))}
           </div>
 
           <div className="hero-buttons">
             <button className="primary-btn">
-              {hero.ctaPrimary || "View Menu"}
+              {hero.primaryButton?.text}
               <span className="primary-btn-arrow">→</span>
             </button>
             <button className="secondary-btn">
-              {hero.ctaSecondary || "Build My Plan"}
+              {hero.secondaryButton?.text}
             </button>
           </div>
-
         </div>
 
-        {/* ── RIGHT: Image ── */}
         <div className="hero-image-wrapper">
-
-          {/* Rotating ring */}
           <div className="hero-ring" />
 
-          <img
-            src={bowl}
-            alt="High protein meal"
-            className="hero-image-main"
-          />
+          <img src={bowl} alt="High protein meal" className="hero-image-main" />
 
-          {/* Protein badge */}
           <div className="hero-badge hero-badge--protein">
             <span className="hero-badge-icon">⚡</span>
             <div>
@@ -99,7 +91,6 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Calorie badge */}
           <div className="hero-badge hero-badge--cal">
             <span className="hero-badge-icon">🔥</span>
             <div>
@@ -107,9 +98,7 @@ const Hero = () => {
               <span className="hero-badge-lbl">Kcal</span>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
   );
