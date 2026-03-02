@@ -7,7 +7,7 @@ import Reviews from "./components/Reviews";
 import Footer from "./components/Footer";
 
 import "./App.css";
-
+import 'remixicon/fonts/remixicon.css';
 function App() {
   return (
     <>
