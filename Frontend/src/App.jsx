@@ -1,26 +1,18 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import ForWhom from "./components/ForWhom";
-import WhyChoose from "./components/WhyChoose";
-import MealCarousel from "./components/MealCarosuel";
-import Reviews from "./components/Reviews";
-import Footer from "./components/Footer";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 import "./App.css";
-import 'remixicon/fonts/remixicon.css';
+import "remixicon/fonts/remixicon.css";
 function App() {
   return (
     <>
-      <Navbar />
-      <Hero />
-      <ForWhom/>
-      <MealCarousel/>
-      <WhyChoose/>
-      <Reviews/>
-      <Footer/>
-      
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* <Route path="/menu" element={<Menu />} />
+          <Route path="/plans" element={<Plans />} /> */}
+        </Routes>
+      </Router>
     </>
-  
   );
 }
 

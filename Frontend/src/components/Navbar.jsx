@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import BASE_URL from "../services/api";
 
 export default function Navbar() {
@@ -30,26 +31,26 @@ export default function Navbar() {
 
   return (
     <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
-      <a className="nb-logo">
+      <Link to="/" className="nb-logo">
         <span className="nb-logo-wordmark">{navbar.brand.name}</span>
         <span className="nb-logo-sub">{navbar.brand.tagline}</span>
-      </a>
+      </Link>
 
       <ul className="nb-links">
         {navbar.links.map((link) => (
           <li key={link.label}>
-            <button
+            <Link
+              to={link.path}
               className={
                 active === link.label ? "nb-link nb-link--active" : "nb-link"
               }
               onClick={() => setActive(link.label)}
             >
               {link.label}
-            </button>
+            </Link>
           </li>
         ))}
       </ul>
-
       <div className="nb-right">
         <div className="macro-badge">
           {navbar.marcos.map((marcos) => (
