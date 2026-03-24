@@ -11,6 +11,7 @@ const whyChooseRoutes = require("./routes/whyChoose");
 const reviewsRoutes = require("./routes/reviews");
 const footerRoutes = require("./routes/footer");
 const navbarRoutes = require("./routes/navbar");
+const mealPlansRoutes = require("./routes/mealPlans");
 
 
 const app = express();
@@ -18,16 +19,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// routes
-// app.use("/api/categories", categoryRoutes);
-// app.use("/api/fooditems", fooditemsRoutes);
-
 app.use("/api/homepage", homepageRoutes);
 app.use("/api/homepage", whoIsForRoutes);
 app.use("/api/homepage", whyChooseRoutes);
 app.use("/api/homepage", reviewsRoutes);
 app.use("/api/homepage", footerRoutes);
 app.use("/api/homepage", navbarRoutes);
+app.use("/api/mealPlans", mealPlansRoutes);
+
 
 
 app.listen(5000, () => {
