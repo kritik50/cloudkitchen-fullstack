@@ -1,16 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const { db } = require("../firebase/firebase");
+const db = require("../firebase/firebase");
 
 router.get("/plans", async (req, res) => {
   try {
-    const doc = await db.collection("mealPlans").get();
+    const snapshot = await db.collection("mealPlans").get();
 
-    if (!doc.exists) {
-      return res.status(404).json({ message: "Hero content not found" });
+    if (snapshot.empty) {
+      return res.json([]); // ✅ return empty array (NOT error)
     }
 
-    res.json(doc.data());
+    const plans = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.json(plans); // ✅ MUST be array
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
