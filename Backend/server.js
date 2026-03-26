@@ -10,6 +10,7 @@ const reviewsRoutes = require("./routes/reviews");
 const footerRoutes = require("./routes/footer");
 const navbarRoutes = require("./routes/navbar");
 const mealPlansRoutes = require("./routes/mealPlans");
+const contactRoutes = require("./routes/contact");
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use("/api/homepage", reviewsRoutes);
 app.use("/api/homepage", footerRoutes);
 app.use("/api/homepage", navbarRoutes);
 app.use("/api/mealPlans", mealPlansRoutes);
+app.use("/api", contactRoutes);
 
 
 
