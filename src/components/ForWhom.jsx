@@ -1,21 +1,49 @@
-// components/ForWhom.jsx
-import { useRef, useEffect, useState } from "react";
-import { ForWhomSkeleton } from "./Skeletons";
+import React, { useRef, useEffect, useState } from "react";
+import BASE_URL from "../services/api";
 
-const ForWhom = ({ data }) => {
-  const [visible, setVisible] = useState(false);
+const ForWhom = () => {
+  const [visible, setVisible] = useState(true);
+  const [wif, setWif] = useState(null);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef(null);
 
+  
+
+  // Intersection animation
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.15 }
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.15 },
     );
+
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
-  if (!data) return <ForWhomSkeleton />;
+  // Fetch from backend
+  useEffect(() => {
+    const fetchWif = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homepage/wif`);
+        const data = await response.json();
+        setWif(data);
+        
+      } catch (error) {
+        console.error("Error fetching WIF section:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWif();
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+  if (!wif) return <div>No Data</div>;
+
+ 
 
   return (
     <section
@@ -26,18 +54,20 @@ const ForWhom = ({ data }) => {
 
       <div className="who-header">
         <span className="who-eyebrow">Built for every goal</span>
-        <h2 className="who-title">{data.title}</h2>
-        <p className="who-subtitle">{data.subtitle}</p>
+        <h2 className="who-title">{wif.title}</h2>
+        <p className="who-subtitle">{wif.subtitle}</p>
       </div>
 
       <div className="who-cards">
-        {data.cards?.map((card, i) => (
+        {wif.cards?.map((card, i) => (
           <div
             className="who-card"
             key={card.title}
             style={{ "--delay": `${i * 0.12}s` }}
           >
-            <span className="card-number">{String(i + 1).padStart(2, "0")}</span>
+            <span className="card-number">
+              {String(i + 1).padStart(2, "0")}
+            </span>
 
             <div className="who-card-top">
               <div className="who-icon-wrapper">{card.icon}</div>

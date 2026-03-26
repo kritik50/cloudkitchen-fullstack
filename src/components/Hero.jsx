@@ -1,10 +1,28 @@
-// components/Hero.jsx
-import { Fragment } from "react";
+import { useEffect, useState } from "react";
 import bowl from "../assets/bowl.jpg";
-import { HeroSkeleton } from "./Skeletons";
+import BASE_URL from "../services/api";
+import { Fragment } from "react";
 
-const Hero = ({ data }) => {
-  if (!data) return <HeroSkeleton />;
+const Hero = () => {
+  const [hero, setHero] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/homepage/hero`);
+        const data = await response.json();
+        setHero(data);
+      } catch (error) {
+        console.error("Error fetching hero:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHero();
+  }, []);
+
+  if (loading) return <p>Working on it.....</p>;
 
   return (
     <section className="hero">
@@ -16,39 +34,55 @@ const Hero = ({ data }) => {
         <div className="hero-content">
           <div className="hero-pill">
             <span className="hero-pill-dot" />
-            {data.topBadge}
+            {hero.topBadge}
           </div>
 
-          <h1 className="hero-title">{data.title}</h1>
+          <h1 className="hero-title">
+            {hero.title || (
+              <>
+                Fuel Built
+                <br />
+                For <em>Athletes</em>
+              </>
+            )}
+          </h1>
 
           <p className="hero-sub">
-            {data.subtitle || "Performance-grade meals crafted for your macros — no compromises, no guesswork."}
+            {hero.subtitle ||
+              "Performance-grade meals crafted for your macros — no compromises, no guesswork."}
           </p>
 
           <div className="hero-stats">
-            {data.stats?.map((stat, index) => (
+            {hero.stats?.map((stat, index) => (
               <Fragment key={stat.label}>
                 <div className="hero-stat">
                   <span className="hero-stat-val">{stat.value}</span>
                   <span className="hero-stat-lbl">{stat.label}</span>
                 </div>
-                {index < data.stats.length - 1 && <div className="hero-stat-sep" />}
+
+                {index < hero.stats.length - 1 && (
+                  <div className="hero-stat-sep" />
+                )}
               </Fragment>
             ))}
           </div>
 
           <div className="hero-buttons">
             <button className="primary-btn">
-              {data.primaryButton?.text}
+              {hero.primaryButton?.text}
               <span className="primary-btn-arrow">→</span>
             </button>
-            <button className="secondary-btn">{data.secondaryButton?.text}</button>
+            <button className="secondary-btn">
+              {hero.secondaryButton?.text}
+            </button>
           </div>
         </div>
 
         <div className="hero-image-wrapper">
           <div className="hero-ring" />
+
           <img src={bowl} alt="High protein meal" className="hero-image-main" />
+
           <div className="hero-badge hero-badge--protein">
             <span className="hero-badge-icon">⚡</span>
             <div>
@@ -56,6 +90,7 @@ const Hero = ({ data }) => {
               <span className="hero-badge-lbl">Protein</span>
             </div>
           </div>
+
           <div className="hero-badge hero-badge--cal">
             <span className="hero-badge-icon">🔥</span>
             <div>
