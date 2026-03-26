@@ -1,4 +1,5 @@
 // components/Skeletons.jsx
+import React from "react";
 
 export const NavbarSkeleton = () => (
   <div className="skel-navbar">

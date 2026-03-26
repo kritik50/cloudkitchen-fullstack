@@ -1,5 +1,5 @@
 // components/Footer.jsx
-
+import React from "react";
 const iconMap = {
   instagram: "ri-instagram-fill",
   whatsapp:  "ri-whatsapp-line",

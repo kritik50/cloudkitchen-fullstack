@@ -1,4 +1,5 @@
 // components/ForWhom.jsx
+import React from "react";
 import { useRef, useEffect, useState } from "react";
 import { ForWhomSkeleton } from "./Skeletons";
 

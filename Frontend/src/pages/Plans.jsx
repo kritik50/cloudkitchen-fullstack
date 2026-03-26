@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from "react";
 import BASE_URL from "../services/api";
 import PlanCard from "../pages/PlanCard";
 
