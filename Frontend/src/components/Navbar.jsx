@@ -1,13 +1,10 @@
-// components/Navbar.jsx
-import React from "react";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { NavbarSkeleton } from "./Skeletons";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
-export default function Navbar({ data }) {
-  const [active, setActive]   = useState("Home");
+export default function Navbar({ data, openModal }) {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -15,7 +12,7 @@ export default function Navbar({ data }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!data) return <NavbarSkeleton />;
+  if (!data) return null;
 
   return (
     <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
@@ -28,13 +25,25 @@ export default function Navbar({ data }) {
       <ul className="nb-links">
         {data.links.map((link) => (
           <li key={link.label}>
-            <Link
-              to={link.path}
-              className={active === link.label ? "nb-link nb-link--active" : "nb-link"}
-              onClick={() => setActive(link.label)}
-            >
-              {link.label}
-            </Link>
+            {link.label === "Contact Us" ? (
+              <button
+                className="nb-link"
+                onClick={openModal}
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                to={link.path}
+                className={
+                  location.pathname === link.path
+                    ? "nb-link nb-link--active"
+                    : "nb-link"
+                }
+              >
+                {link.label}
+              </Link>
+            )}
           </li>
         ))}
       </ul>
@@ -49,7 +58,12 @@ export default function Navbar({ data }) {
             </div>
           ))}
         </div>
-        <button className="order-btn" onClick={() => navigate(data.cta.path)}>
+
+        {/* 🔥 ORDER BUTTON ALSO OPENS MODAL */}
+        <button
+          className="order-btn"
+          onClick={openModal}
+        >
           {data.cta.text}
         </button>
       </div>

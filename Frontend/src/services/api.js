@@ -54,19 +54,19 @@ export async function fetchHomepageData() {
 
   const [hero, nav, wif, wcg, rev, footer] = await Promise.allSettled([
     fetchWithCache(`${BASE_URL}/api/homepage/hero`, "gb_hero"),
-    fetchWithCache(`${BASE_URL}/api/homepage/nav`,  "gb_nav"),
-    fetchWithCache(`${BASE_URL}/api/homepage/wif`,  "gb_wif"),
-    fetchWithCache(`${BASE_URL}/api/homepage/wcg`,  "gb_wcg"),
-    fetchWithCache(`${BASE_URL}/api/homepage/rev`,  "gb_rev"),
-    fetchWithCache(`${BASE_URL}/api/homepage/foo`,  "gb_footer"),
+    fetchWithCache(`${BASE_URL}/api/homepage/nav`, "gb_nav"),
+    fetchWithCache(`${BASE_URL}/api/homepage/wif`, "gb_wif"),
+    fetchWithCache(`${BASE_URL}/api/homepage/wcg`, "gb_wcg"),
+    fetchWithCache(`${BASE_URL}/api/homepage/rev`, "gb_rev"),
+    fetchWithCache(`${BASE_URL}/api/homepage/foo`, "gb_footer"),
   ]);
 
   const result = {
-    hero:   hero.status   === "fulfilled" ? hero.value   : null,
-    nav:    nav.status    === "fulfilled" ? nav.value    : null,
-    wif:    wif.status    === "fulfilled" ? wif.value    : null,
-    wcg:    wcg.status    === "fulfilled" ? wcg.value    : null,
-    rev:    rev.status    === "fulfilled" ? rev.value    : null,
+    hero: hero.status === "fulfilled" ? hero.value : null,
+    nav: nav.status === "fulfilled" ? nav.value : null,
+    wif: wif.status === "fulfilled" ? wif.value : null,
+    wcg: wcg.status === "fulfilled" ? wcg.value : null,
+    rev: rev.status === "fulfilled" ? rev.value : null,
     footer: footer.status === "fulfilled" ? footer.value : null,
   };
 
@@ -79,7 +79,11 @@ export async function fetchHomepageData() {
 export function clearHomepageCache() {
   [
     "gymbites_homepage_v1",
-    "gb_hero", "gb_nav", "gb_wif",
-    "gb_wcg",  "gb_rev", "gb_footer",
+    "gb_hero",
+    "gb_nav",
+    "gb_wif",
+    "gb_wcg",
+    "gb_rev",
+    "gb_footer",
   ].forEach((k) => localStorage.removeItem(k));
 }

@@ -31,10 +31,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 48px;
-  position: relative;
+
+  position: absolute; /* FIX */
   top: 0;
-  z-index: 200;
-  box-sizing: border-box;
+  left: 0;
+  width: 100%;
+
+  z-index: 1; /* BELOW navbar */
+  pointer-events: none; /* IMPORTANT */
 }
 
 .skel-nav-logo  { height: 32px; width: 120px; }

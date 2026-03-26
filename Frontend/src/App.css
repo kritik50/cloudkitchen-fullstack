@@ -72,7 +72,8 @@ body {
   height: 68px;
   position: sticky;
   top: 0;
-  z-index: 200;
+  z-index: 999; /* FIXED */
+  isolation: isolate; /* FIXED */
   background: rgba(13, 17, 23, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(126, 184, 247, 0.08);
@@ -187,25 +188,37 @@ body {
 .nb-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 20px; /* more breathing space */
+  padding-left: 20px; /* spacing from links */
+  border-left: 1px solid rgba(126, 184, 247, 0.12); /* cleaner divider */
+}
+
+.nb-right::before {
+  content: "";
+  width: 1px;
+  height: 24px;
+  background: rgba(126, 184, 247, 0.1);
+  margin-right: 6px;
 }
 
 /* ── MACRO BADGE ── */
 .macro-badge {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 14px;
-  border: 1px solid rgba(126, 184, 247, 0.12);
-  border-radius: 6px;
-  background: rgba(126, 184, 247, 0.04);
+  gap: 12px;
+  height: 38px; /* slightly bigger for balance */
+  padding: 0 16px;
+  border: 1px solid rgba(126, 184, 247, 0.15);
+  border-radius: 8px;
+  background: rgba(126, 184, 247, 0.05);
   transition: all 0.2s ease;
 }
 
+
 .macro-badge:hover {
-  background: rgba(126, 184, 247, 0.06);
-  border-color: rgba(126, 184, 247, 0.18);
+  background: rgba(126, 184, 247, 0.08);
 }
+
 
 .macro-item {
   display: flex;
@@ -238,6 +251,7 @@ body {
   background: rgba(126, 184, 247, 0.12);
 }
 
+
 /* ── ORDER BUTTON ── */
 .order-btn {
   font-family: 'Syne', sans-serif;
@@ -245,16 +259,24 @@ body {
   font-weight: 800;
   letter-spacing: 1px;
   text-transform: uppercase;
-  padding: 9px 22px;
-  border-radius: 5px;
+
+  height: 38px;
+  padding: 0 24px; /* more horizontal padding */
+
+  border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: #7eb8f7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(135deg, #7eb8f7, #5fa8ff); /* 🔥 upgrade */
   color: #090c10;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.2s ease;
+
+  transition: all 0.25s ease;
 }
+
 
 .order-btn::before {
   content: '';
@@ -267,8 +289,7 @@ body {
 
 .order-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(126, 184, 247, 0.4);
-  background: #8fc4ff;
+  box-shadow: 0 8px 28px rgba(126, 184, 247, 0.5);
 }
 
 .order-btn:hover::before {
@@ -285,17 +306,21 @@ body {
   .nb {
     padding: 0 20px;
   }
-  
+
   .macro-badge {
     display: none;
   }
-  
+
   .nb-links {
     display: none;
   }
-  
+
   .nb-logo-wordmark {
     font-size: 22px;
+  }
+
+  .nb-right::before {
+    display: none;
   }
 }
 /* --------------------------------------------------------------------------------------------- HERO ------------------------------------------------------------------------------------------ */

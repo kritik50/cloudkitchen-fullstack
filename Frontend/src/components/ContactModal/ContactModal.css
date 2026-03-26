@@ -1,0 +1,226 @@
+/* ── OVERLAY ── */
+.cm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* ── MODAL ── */
+.cm-modal {
+  width: 420px;
+  max-width: 92%;
+  background: #0d1117;
+  border: 1px solid rgba(126, 184, 247, 0.15);
+  border-radius: 14px;
+  padding: 28px 26px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: cmFadeIn 0.3s ease;
+}
+
+/* animation */
+@keyframes cmFadeIn {
+  from {
+    transform: translateY(20px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── CLOSE BUTTON ── */
+.cm-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: #8b949e;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.cm-close:hover {
+  color: #e6edf3;
+}
+
+/* ── HEADER ── */
+.cm-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #e6edf3;
+  margin-bottom: 4px;
+}
+
+.cm-sub {
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 20px;
+}
+
+/* ── FORM ── */
+.cm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── ERROR (NEW) ── */
+.cm-error {
+  background: rgba(255, 80, 80, 0.08);
+  border: 1px solid rgba(255, 80, 80, 0.25);
+  color: #ff6b6b;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* ── INPUTS ── */
+.cm-input,
+.cm-textarea {
+  width: 100%;
+  background: #090c10;
+  border: 1px solid rgba(126, 184, 247, 0.15);
+  padding: 11px 12px;
+  border-radius: 8px;
+  color: #e6edf3;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.cm-input:focus,
+.cm-textarea:focus {
+  border-color: #7eb8f7;
+  box-shadow: 0 0 0 2px rgba(126, 184, 247, 0.15);
+}
+
+/* textarea */
+.cm-textarea {
+  min-height: 90px;
+  resize: none;
+}
+
+/* ── GOALS ── */
+.cm-goals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cm-goal {
+  background: transparent;
+  border: 1px solid rgba(126, 184, 247, 0.2);
+  color: #8b949e;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.cm-goal:hover {
+  border-color: #7eb8f7;
+  color: #e6edf3;
+}
+
+.cm-goal.active {
+  background: #7eb8f7;
+  color: #090c10;
+  border: none;
+  font-weight: 600;
+}
+
+/* ── ACTION BUTTONS ── */
+.cm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* submit */
+.cm-submit {
+  flex: 1;
+  background: linear-gradient(135deg, #7eb8f7, #5fa8ff);
+  border: none;
+  padding: 11px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  color: #090c10;
+  transition: all 0.25s ease;
+}
+
+.cm-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(126, 184, 247, 0.5);
+}
+
+/* call button */
+.cm-call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 14px;
+  border: 1px solid rgba(126, 184, 247, 0.3);
+  border-radius: 8px;
+  text-decoration: none;
+  color: #e6edf3;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.cm-call:hover {
+  background: rgba(126, 184, 247, 0.08);
+  border-color: #7eb8f7;
+}
+
+/* ── SUCCESS STATE ── */
+.cm-success {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.cm-success h2 {
+  color: #7ee787;
+  margin-bottom: 8px;
+}
+
+.cm-success p {
+  color: #8b949e;
+  margin-bottom: 16px;
+}
+
+.cm-success button {
+  background: #7eb8f7;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .cm-modal {
+    padding: 22px 18px;
+  }
+
+  .cm-actions {
+    flex-direction: column;
+  }
+
+  .cm-call {
+    width: 100%;
+  }
+}
