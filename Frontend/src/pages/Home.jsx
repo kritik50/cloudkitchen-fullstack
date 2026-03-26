@@ -3,14 +3,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { fetchHomepageData } from "../services/api";
 
-import Navbar         from "../components/Navbar";
-import Hero           from "../components/Hero";
-import ForWhom        from "../components/ForWhom";
-import MealCarosuel   from "../components/MealCarosuel";
-import WhyChoose      from "../components/WhyChoose";
-import Reviews        from "../components/Reviews";
-import Footer         from "../components/Footer";
-import Loader         from "../components/Loader";
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import ForWhom from "../components/ForWhom";
+import MealCarosuel from "../components/MealCarosuel";
+import WhyChoose from "../components/WhyChoose";
+import Reviews from "../components/Reviews";
+import Footer from "../components/Footer";
+import Loader from "../components/Loader";
 
 import {
   NavbarSkeleton,
@@ -25,14 +25,14 @@ import {
 const LOADER_MIN_MS = 2200;
 
 const Home = () => {
-  const [pageData, setPageData]     = useState(null);  // null = not yet fetched
+  const [pageData, setPageData] = useState(null); // null = not yet fetched
   const [loaderDone, setLoaderDone] = useState(false); // branded loader finished
 
   // 1. Fire all API calls in parallel immediately on mount
   useEffect(() => {
     fetchHomepageData()
-      .then(data => setPageData(data))
-      .catch(err  => {
+      .then((data) => setPageData(data))
+      .catch((err) => {
         console.error("Homepage fetch failed:", err);
         setPageData({}); // show skeletons rather than blank screen
       });
@@ -71,13 +71,13 @@ const Home = () => {
   // its own skeleton fallback so the rest of the page still works.
   return (
     <>
-      <Navbar   data={pageData.nav}    />
-      <Hero     data={pageData.hero}   />
-      <ForWhom  data={pageData.wif}    />
-      <MealCarosuel                    />  {/* uses its own static assets */}
-      <WhyChoose data={pageData.wcg}   />
-      <Reviews  data={pageData.rev}    />
-      <Footer   data={pageData.footer} />
+      <Navbar data={pageData.nav} />
+      <Hero data={pageData.hero} />
+      <ForWhom data={pageData.wif} />
+      <MealCarosuel /> {/* uses its own static assets */}
+      <WhyChoose data={pageData.wcg} />
+      <Reviews data={pageData.rev} />
+      <Footer data={pageData.footer} />
     </>
   );
 };
