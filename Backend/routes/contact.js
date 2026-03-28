@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../firebase/firebase"); // your existing firebase config
+const db = require("../firebase/firebase");
 
 router.post("/contact", async (req, res) => {
   try {
+    console.log("📩 Incoming request:", req.body); // ✅ DEBUG
+
     const { name, phone, email, goal, message } = req.body;
 
     if (!name || !phone) {
@@ -14,7 +16,7 @@ router.post("/contact", async (req, res) => {
       name,
       phone,
       email: email || "",
-      goal,
+      goal: goal || "",
       message: message || "",
 
       status: "new",
@@ -23,10 +25,12 @@ router.post("/contact", async (req, res) => {
       contactedAt: null
     });
 
+    console.log("✅ Saved to Firestore");
+
     res.status(200).json({ success: true });
 
   } catch (err) {
-    console.error("Contact API Error:", err);
+    console.error("❌ Contact API Error:", err); // VERY IMPORTANT
     res.status(500).json({ error: "Server error" });
   }
 });
