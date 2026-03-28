@@ -12,8 +12,11 @@
 
 /* ── MODAL ── */
 .cm-modal {
-  width: 420px;
+  box-sizing: border-box; /* FIX: Keeps padding inside the width */
+  width: 440px;
   max-width: 92%;
+  max-height: 90vh; /* FIX: Prevents modal from clipping off screen */
+  overflow-y: auto; /* Adds scroll if needed */
   background: #0d1117;
   border: 1px solid rgba(126, 184, 247, 0.15);
   border-radius: 14px;
@@ -23,31 +26,33 @@
   animation: cmFadeIn 0.3s ease;
 }
 
+/* Custom Sleek Scrollbar */
+.cm-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.cm-modal::-webkit-scrollbar-thumb {
+  background: rgba(126, 184, 247, 0.2);
+  border-radius: 10px;
+}
+
 /* animation */
 @keyframes cmFadeIn {
-  from {
-    transform: translateY(20px) scale(0.98);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+  from { transform: translateY(20px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 /* ── CLOSE BUTTON ── */
 .cm-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 16px;
   background: transparent;
   border: none;
   color: #8b949e;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  transition: 0.2s;
+  line-height: 1;
 }
-
 .cm-close:hover {
   color: #e6edf3;
 }
@@ -60,7 +65,6 @@
   color: #e6edf3;
   margin-bottom: 4px;
 }
-
 .cm-sub {
   font-size: 13px;
   color: #8b949e;
@@ -71,10 +75,10 @@
 .cm-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* ── ERROR (NEW) ── */
+/* ── ERROR ── */
 .cm-error {
   background: rgba(255, 80, 80, 0.08);
   border: 1px solid rgba(255, 80, 80, 0.25);
@@ -87,6 +91,7 @@
 /* ── INPUTS ── */
 .cm-input,
 .cm-textarea {
+  box-sizing: border-box; /* FIX: Prevents bleeding off the right side */
   width: 100%;
   background: #090c10;
   border: 1px solid rgba(126, 184, 247, 0.15);
@@ -95,44 +100,38 @@
   color: #e6edf3;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s ease;
+  font-family: inherit;
 }
-
 .cm-input:focus,
 .cm-textarea:focus {
   border-color: #7eb8f7;
   box-shadow: 0 0 0 2px rgba(126, 184, 247, 0.15);
 }
-
-/* textarea */
 .cm-textarea {
   min-height: 90px;
   resize: none;
 }
 
-/* ── GOALS ── */
+/* ── GOALS & BUTTONS ── */
 .cm-goals {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
-
 .cm-goal {
   background: transparent;
   border: 1px solid rgba(126, 184, 247, 0.2);
   color: #8b949e;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s ease;
+  font-size: 13px;
+  transition: all 0.2s;
 }
-
 .cm-goal:hover {
   border-color: #7eb8f7;
   color: #e6edf3;
 }
-
 .cm-goal.active {
   background: #7eb8f7;
   color: #090c10;
@@ -140,74 +139,93 @@
   font-weight: 600;
 }
 
+/* ── CUSTOM SECTION ── */
+.cm-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* FIX: Adds breathing room between custom options */
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(126, 184, 247, 0.15);
+  animation: fadeIn 0.25s ease;
+}
+.cm-divider {
+  font-size: 14px;
+  color: #e6edf3;
+  font-weight: 600;
+}
+
+/* ── GRID INPUTS (weight + height) ── */
+.cm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
 /* ── ACTION BUTTONS ── */
 .cm-actions {
   display: flex;
-  gap: 10px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 8px;
 }
-
-/* submit */
 .cm-submit {
   flex: 1;
   background: linear-gradient(135deg, #7eb8f7, #5fa8ff);
   border: none;
-  padding: 11px;
+  padding: 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
   color: #090c10;
-  transition: all 0.25s ease;
+  transition: all 0.2s;
 }
-
-.cm-submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(126, 184, 247, 0.5);
+.cm-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(126, 184, 247, 0.3);
 }
-
-/* call button */
+.cm-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 .cm-call {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 11px 14px;
+  padding: 12px 18px;
   border: 1px solid rgba(126, 184, 247, 0.3);
   border-radius: 8px;
   text-decoration: none;
   color: #e6edf3;
   font-size: 14px;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
-
 .cm-call:hover {
   background: rgba(126, 184, 247, 0.08);
   border-color: #7eb8f7;
 }
 
-/* ── SUCCESS STATE ── */
+/* ── SUCCESS ── */
 .cm-success {
   text-align: center;
-  padding: 20px 10px;
+  padding: 30px 10px;
 }
-
 .cm-success h2 {
   color: #7ee787;
   margin-bottom: 8px;
 }
-
 .cm-success p {
   color: #8b949e;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
-
 .cm-success button {
   background: #7eb8f7;
+  color: #090c10;
+  font-weight: 600;
   border: none;
-  padding: 10px 16px;
+  padding: 10px 24px;
   border-radius: 6px;
   cursor: pointer;
-  font-weight: 600;
 }
 
 /* ── RESPONSIVE ── */
@@ -215,12 +233,19 @@
   .cm-modal {
     padding: 22px 18px;
   }
-
   .cm-actions {
     flex-direction: column;
   }
-
   .cm-call {
     width: 100%;
+    box-sizing: border-box;
   }
+  .cm-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
