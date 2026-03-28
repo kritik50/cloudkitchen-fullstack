@@ -1,51 +1,86 @@
 import React from "react";
 
-const PlanCard = ({ plan, isActive, onToggle }) => {
+const PlanCard = ({ plan, index, isActive, onToggle }) => {
   const meals = plan.meals || {};
 
   const getMeal = (key) =>
-    meals[key] || meals[key.toLowerCase()] || "";
+    meals[key] || meals[key.toLowerCase()] || "—";
+
+  const goalColors = {
+    0: { accent: "#7eb8f7", dim: "rgba(126,184,247,0.08)", border: "rgba(126,184,247,0.25)" },
+    1: { accent: "#5eead4", dim: "rgba(94,234,212,0.08)",  border: "rgba(94,234,212,0.25)"  },
+    2: { accent: "#f87171", dim: "rgba(248,113,113,0.08)", border: "rgba(248,113,113,0.25)" },
+    3: { accent: "#a78bfa", dim: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.25)" },
+  };
+
+  const color = goalColors[index % 4];
 
   return (
     <div
-      className={`plan-card ${isActive ? "plan-card--active" : ""}`}
+      className={`plan-card${isActive ? " plan-card--active" : ""}`}
       onClick={onToggle}
+      style={{
+        "--card-accent":  color.accent,
+        "--card-dim":     color.dim,
+        "--card-border":  color.border,
+      }}
     >
-      {/* HEADER */}
-      <div className="plan-card-header">
-        <h2>{plan.title}</h2>
-        <p>{plan.shortDesc}</p>
+      {/* Ghost index number */}
+      <span className="plan-card-num">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
-        <div className="plan-highlights">
-          {plan.highlights?.map((item, i) => (
-            <span key={i}>{item}</span>
+      {/* Top: tag + toggle indicator */}
+      <div className="plan-card-top">
+        <span className="plan-card-tag">{plan.tag || "Plan"}</span>
+        <span className="plan-card-toggle">
+          {isActive ? "−" : "+"}
+        </span>
+      </div>
+
+      {/* Title + desc */}
+      <h2 className="plan-card-title">{plan.title}</h2>
+      <p className="plan-card-desc">{plan.shortDesc}</p>
+
+      {/* Highlights */}
+      <div className="plan-highlights">
+        {plan.highlights?.map((item, i) => (
+          <span className="plan-highlight-chip" key={i}>{item}</span>
+        ))}
+      </div>
+
+      {/* Price */}
+      <div className="plan-price">
+        <span className="plan-price-val">{plan.price?.weekly}</span>
+        <span className="plan-price-lbl">/ week</span>
+      </div>
+
+      {/* Expanded meal details */}
+      <div className={`plan-expanded${isActive ? " plan-expanded--open" : ""}`}>
+        <div className="plan-expanded-inner">
+          <div className="plan-divider" />
+
+          {["Breakfast", "Lunch", "Dinner"].map((meal) => (
+            <div className="plan-meal-row" key={meal}>
+              <span className="plan-meal-lbl">{meal}</span>
+              <span className="plan-meal-val">{getMeal(meal)}</span>
+            </div>
           ))}
-        </div>
 
-        <div className="plan-price">
-          {plan.price?.weekly}/week
-        </div>
-      </div>
+          {plan.customNote && (
+            <p className="plan-note">{plan.customNote}</p>
+          )}
 
-      {/* EXPAND */}
-      <div className="plan-expanded">
-        <hr />
-
-        <h4>Breakfast</h4>
-        <p>{getMeal("Breakfast")}</p>
-
-        <h4>Lunch</h4>
-        <p>{getMeal("Lunch")}</p>
-
-        <h4>Dinner</h4>
-        <p>{getMeal("Dinner")}</p>
-
-        <p className="plan-note">{plan.customNote}</p>
-
-        <div className="plan-full-price">
-          {plan.price?.weekly}/week | {plan.price?.monthly}/month
+          <div className="plan-full-price">
+            <span>{plan.price?.weekly} / week</span>
+            <span className="plan-price-sep">·</span>
+            <span>{plan.price?.monthly} / month</span>
+          </div>
         </div>
       </div>
+
+      {/* Bottom accent line */}
+      <div className="plan-card-line" />
     </div>
   );
 };
