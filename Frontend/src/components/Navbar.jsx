@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
 
 export default function Navbar({ data, openModal }) {
   const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
@@ -17,19 +17,18 @@ export default function Navbar({ data, openModal }) {
   return (
     <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
 
+      {/* Logo */}
       <Link to="/" className="nb-logo">
         <span className="nb-logo-wordmark">{data.brand.name}</span>
         <span className="nb-logo-sub">{data.brand.tagline}</span>
       </Link>
 
+      {/* Center links — absolutely centered via CSS */}
       <ul className="nb-links">
         {data.links.map((link) => (
           <li key={link.label}>
             {link.label === "Contact Us" ? (
-              <button
-                className="nb-link"
-                onClick={openModal}
-              >
+              <button className="nb-link" onClick={openModal}>
                 {link.label}
               </button>
             ) : (
@@ -48,22 +47,21 @@ export default function Navbar({ data, openModal }) {
         ))}
       </ul>
 
+      {/* Right: macro badge + CTA */}
       <div className="nb-right">
         <div className="macro-badge">
           {data.marcos?.map((marco, i) => (
-            <div className="macro-item" key={marco.label}>
-              <span className="macro-val">{marco.value}</span>
-              <span className="macro-lbl">{marco.label}</span>
+            <React.Fragment key={marco.label}>
+              <div className="macro-item">
+                <span className="macro-val">{marco.value}</span>
+                <span className="macro-lbl">{marco.label}</span>
+              </div>
               {i < data.marcos.length - 1 && <div className="macro-sep" />}
-            </div>
+            </React.Fragment>
           ))}
         </div>
 
-        {/* 🔥 ORDER BUTTON ALSO OPENS MODAL */}
-        <button
-          className="order-btn"
-          onClick={openModal}
-        >
+        <button className="order-btn" onClick={openModal}>
           {data.cta.text}
         </button>
       </div>

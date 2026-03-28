@@ -1,83 +1,81 @@
 import React, { useState } from "react";
 import "./ContactModal.css";
 
-export default function ContactModal({ isOpen, onClose }) {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    goal: "Fat Loss",
-    message: ""
-  });
+const BASE_URL = import.meta.env.VITE_API_URL;
 
+const EMPTY_FORM = {
+  name: "",
+  phone: "",
+  email: "",
+  goal: "Fat Loss",
+  message: ""
+};
+
+export default function ContactModal({ isOpen, onClose }) {
+  const [form,    setForm]    = useState(EMPTY_FORM);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(""); // ✅ NEW
+  const [error,   setError]   = useState("");
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(""); // ✅ clear error while typing
+    setError("");
+  };
+
+  // ✅ Reset ALL state on close — form is fresh every time it opens
+  const handleClose = () => {
+    setSuccess(false);
+    setError("");
+    setForm(EMPTY_FORM);
+    onClose();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.name || !form.phone) {
-      setError("Name and Phone are required"); // ✅ replaced alert
+      setError("Name and Phone are required");
       return;
     }
 
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch(`${BASE_URL}/api/contact`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong");
-      }
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
 
       setSuccess(true);
 
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        goal: "Fat Loss",
-        message: ""
-      });
-
     } catch (err) {
       console.error("API Error:", err);
-      setError("Failed to submit. Try again."); // ✅ clean error
+      setError("Failed to submit. Try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="cm-overlay" onClick={onClose}>
+    <div className="cm-overlay" onClick={handleClose}>
       <div className="cm-modal" onClick={(e) => e.stopPropagation()}>
 
-        <button className="cm-close" onClick={onClose}>✕</button>
+        {/* ✅ handleClose instead of onClose so state resets */}
+        <button className="cm-close" onClick={handleClose}>✕</button>
 
         {!success ? (
           <>
             <h2 className="cm-title">Start Your Meal Plan</h2>
-            <p className="cm-sub">We’ll contact you within 30 minutes</p>
+            <p className="cm-sub">We'll contact you within 30 minutes</p>
 
             <form className="cm-form" onSubmit={handleSubmit}>
 
-              {/* ✅ ERROR UI */}
               {error && <div className="cm-error">{error}</div>}
 
               <input
@@ -132,10 +130,7 @@ export default function ContactModal({ isOpen, onClose }) {
                 <button type="submit" className="cm-submit" disabled={loading}>
                   {loading ? "Sending..." : "Start My Plan 🚀"}
                 </button>
-
-                <a href="tel:+919999999999" className="cm-call">
-                  Call Now
-                </a>
+                <a href="tel:+919999999999" className="cm-call">Call Now</a>
               </div>
 
             </form>
@@ -143,8 +138,9 @@ export default function ContactModal({ isOpen, onClose }) {
         ) : (
           <div className="cm-success">
             <h2>✅ Request Sent</h2>
-            <p>We’ll contact you shortly</p>
-            <button onClick={onClose}>Close</button>
+            <p>We'll contact you shortly</p>
+            {/* ✅ handleClose resets so next open shows the form again */}
+            <button onClick={handleClose}>Close</button>
           </div>
         )}
 

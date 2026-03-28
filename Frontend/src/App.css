@@ -61,7 +61,6 @@ body {
 }
 
 /* ------------------------------------------------------------------------------------------NAVBAR--------------------------------------------------------------------------------------- */
-
 /* ── NAVBAR ── */
 .nb {
   font-family: 'Outfit', sans-serif;
@@ -72,17 +71,16 @@ body {
   height: 68px;
   position: sticky;
   top: 0;
-  z-index: 999; /* FIXED */
-  isolation: isolate; /* FIXED */
+  z-index: 999;
   background: rgba(13, 17, 23, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(126, 184, 247, 0.08);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .nb--scrolled {
   background: rgba(13, 17, 23, 0.98);
-  border-bottom: 1px solid rgba(126, 184, 247, 0.12);
+  border-bottom-color: rgba(126, 184, 247, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
@@ -90,19 +88,20 @@ body {
 .nb-logo {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.2s ease;
+  transition: opacity 0.2s ease;
+  flex-shrink: 0;
 }
 
 .nb-logo:hover {
-  transform: translateY(-1px);
+  opacity: 0.85;
 }
 
 .nb-logo-wordmark {
   font-family: 'Syne', sans-serif;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.5px;
   line-height: 1;
@@ -120,29 +119,33 @@ body {
   align-items: center;
   gap: 6px;
   font-family: 'Syne', sans-serif;
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  color: #8b949e;
+  color: rgba(180, 200, 224, 0.4);
 }
 
 .nb-logo-sub::before {
   content: '';
   display: inline-block;
-  width: 14px;
+  width: 12px;
   height: 1px;
   background: #7eb8f7;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
-/* ── LINKS ── */
+/* ── CENTER LINKS ── */
 .nb-links {
   display: flex;
   list-style: none;
-  gap: 4px;
+  gap: 2px;
   margin: 0;
   padding: 0;
+  /* true center */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nb-link {
@@ -152,14 +155,15 @@ body {
   font-family: 'Outfit', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #8b949e;
-  padding: 8px 16px;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  color: rgba(180, 200, 224, 0.5);
+  padding: 8px 14px;
+  border-radius: 5px;
+  transition: color 0.2s ease, background 0.2s ease;
   letter-spacing: 0.2px;
   position: relative;
   text-decoration: none;
   display: block;
+  white-space: nowrap;
 }
 
 .nb-link:hover {
@@ -176,60 +180,45 @@ body {
   content: '';
   position: absolute;
   bottom: -1px;
-  left: 16px;
-  right: 16px;
+  left: 14px;
+  right: 14px;
   height: 2px;
   background: #7eb8f7;
   border-radius: 2px 2px 0 0;
-  box-shadow: 0 0 10px rgba(126, 184, 247, 0.5);
+  box-shadow: 0 0 8px rgba(126, 184, 247, 0.5);
 }
 
-/* ── RIGHT SIDE ── */
+/* ── RIGHT CLUSTER ── */
 .nb-right {
   display: flex;
   align-items: center;
-  gap: 20px; /* more breathing space */
-  padding-left: 20px; /* spacing from links */
-  border-left: 1px solid rgba(126, 184, 247, 0.12); /* cleaner divider */
-}
-
-.nb-right::before {
-  content: "";
-  width: 1px;
-  height: 24px;
-  background: rgba(126, 184, 247, 0.1);
-  margin-right: 6px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 
 /* ── MACRO BADGE ── */
 .macro-badge {
   display: flex;
   align-items: center;
-  gap: 12px;
-  height: 38px; /* slightly bigger for balance */
-  padding: 0 16px;
-  border: 1px solid rgba(126, 184, 247, 0.15);
+  gap: 0;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(126, 184, 247, 0.12);
   border-radius: 8px;
-  background: rgba(126, 184, 247, 0.05);
-  transition: all 0.2s ease;
+  background: rgba(126, 184, 247, 0.04);
 }
-
-
-.macro-badge:hover {
-  background: rgba(126, 184, 247, 0.08);
-}
-
 
 .macro-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1px;
+  padding: 0 10px;
 }
 
 .macro-val {
   font-family: 'DM Mono', monospace;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 500;
   color: #e6edf3;
   line-height: 1;
@@ -238,89 +227,79 @@ body {
 
 .macro-lbl {
   font-family: 'Syne', sans-serif;
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #8b949e;
+  color: rgba(180, 200, 224, 0.38);
   text-transform: uppercase;
 }
 
 .macro-sep {
   width: 1px;
-  height: 20px;
-  background: rgba(126, 184, 247, 0.12);
+  height: 18px;
+  background: rgba(126, 184, 247, 0.1);
+  flex-shrink: 0;
 }
-
 
 /* ── ORDER BUTTON ── */
 .order-btn {
   font-family: 'Syne', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-
-  height: 38px;
-  padding: 0 24px; /* more horizontal padding */
-
-  border-radius: 8px;
+  height: 36px;
+  padding: 0 20px;
+  border-radius: 7px;
   border: none;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: linear-gradient(135deg, #7eb8f7, #5fa8ff); /* 🔥 upgrade */
+  background: #7eb8f7;
   color: #090c10;
-
-  transition: all 0.25s ease;
-}
-
-
-.order-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 }
 
 .order-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(126, 184, 247, 0.5);
-}
-
-.order-btn:hover::before {
-  opacity: 1;
+  background: #9ccbfa;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(126, 184, 247, 0.35);
 }
 
 .order-btn:active {
   transform: translateY(0);
-  box-shadow: 0 3px 12px rgba(126, 184, 247, 0.3);
+  box-shadow: none;
 }
 
 /* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .nb {
+    padding: 0 32px;
+  }
+}
+
 @media (max-width: 860px) {
   .nb {
     padding: 0 20px;
+  }
+
+  /* Links go back to normal flow on mobile */
+  .nb-links {
+    position: static;
+    transform: none;
+    display: none;
   }
 
   .macro-badge {
     display: none;
   }
 
-  .nb-links {
-    display: none;
-  }
-
   .nb-logo-wordmark {
-    font-size: 22px;
-  }
-
-  .nb-right::before {
-    display: none;
+    font-size: 20px;
   }
 }
 /* --------------------------------------------------------------------------------------------- HERO ------------------------------------------------------------------------------------------ */
