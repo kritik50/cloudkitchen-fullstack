@@ -11,6 +11,7 @@ const footerRoutes = require("./routes/footer");
 const navbarRoutes = require("./routes/navbar");
 const mealPlansRoutes = require("./routes/mealPlans");
 const contactRoutes = require("./routes/contact");
+const customPlanRoutes = require("./routes/customPlan");
 
 
 const app = express();
@@ -26,6 +27,9 @@ app.use("/api/homepage", footerRoutes);
 app.use("/api/homepage", navbarRoutes);
 app.use("/api/mealPlans", mealPlansRoutes);
 app.use("/api", contactRoutes);
+app.use("/api", customPlanRoutes);
+
+
 
 
 
