@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { submitContact, submitCustomPlan } from "../../services/api";
 import "./ContactModal.css";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 const EMPTY_FORM = {
   name: "",
@@ -9,13 +8,11 @@ const EMPTY_FORM = {
   email: "",
   goal: "Fat Loss",
   message: "",
-
-  // 🔥 custom fields
   dietType: "",
   weight: "",
   height: "",
   mealsPerDay: "",
-  budget: ""
+  budget: "",
 };
 
 export default function ContactModal({ isOpen, onClose }) {
@@ -28,8 +25,9 @@ export default function ContactModal({ isOpen, onClose }) {
 
   const isCustom = form.goal === "Custom Plan";
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
     setError("");
   };
 
@@ -40,43 +38,31 @@ export default function ContactModal({ isOpen, onClose }) {
     onClose();
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (!form.name || !form.phone) {
-      setError("Name and Phone are required");
+      setError("Name and phone are required.");
       return;
     }
 
-    // 🔥 extra validation for custom
-    if (isCustom) {
-      if (!form.dietType || !form.weight || !form.height) {
-        setError("Please fill all custom plan details");
-        return;
-      }
+    if (isCustom && (!form.dietType || !form.weight || !form.height)) {
+      setError("Please complete diet, weight, and height for custom plans.");
+      return;
     }
 
     try {
       setLoading(true);
 
-      const endpoint = isCustom
-        ? `${BASE_URL}/api/custom-plan`
-        : `${BASE_URL}/api/contact`;
-
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      if (isCustom) {
+        await submitCustomPlan(form);
+      } else {
+        await submitContact(form);
+      }
 
       setSuccess(true);
-
-    } catch (err) {
-      console.error("API Error:", err);
-      setError("Failed to submit. Try again.");
+    } catch (apiError) {
+      setError(apiError.message || "Failed to submit. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -84,25 +70,21 @@ export default function ContactModal({ isOpen, onClose }) {
 
   return (
     <div className="cm-overlay" onClick={handleClose}>
-      <div className="cm-modal" onClick={(e) => e.stopPropagation()}>
-
-        <button className="cm-close" onClick={handleClose}>✕</button>
+      <div className="cm-modal" onClick={(event) => event.stopPropagation()}>
+        <button className="cm-close" onClick={handleClose}>
+          X
+        </button>
 
         {!success ? (
           <>
             <h2 className="cm-title">
               {isCustom ? "Build Your Custom Plan" : "Start Your Meal Plan"}
             </h2>
-
-            <p className="cm-sub">
-              We'll contact you within 30 minutes
-            </p>
+            <p className="cm-sub">We will contact you quickly to confirm your request.</p>
 
             <form className="cm-form" onSubmit={handleSubmit}>
-
               {error && <div className="cm-error">{error}</div>}
 
-              {/* BASIC */}
               <input
                 type="text"
                 name="name"
@@ -130,43 +112,36 @@ export default function ContactModal({ isOpen, onClose }) {
                 className="cm-input"
               />
 
-              {/* GOALS */}
               <div className="cm-goals">
-                {["Fat Loss", "Muscle Gain", "Maintenance", "Custom Plan"].map((g) => (
+                {["Fat Loss", "Muscle Gain", "Maintenance", "Custom Plan"].map((goal) => (
                   <button
                     type="button"
-                    key={g}
-                    className={`cm-goal ${form.goal === g ? "active" : ""}`}
-                    onClick={() => setForm({ ...form, goal: g })}
+                    key={goal}
+                    className={`cm-goal ${form.goal === goal ? "active" : ""}`}
+                    onClick={() => setForm((prev) => ({ ...prev, goal }))}
                   >
-                    {g}
+                    {goal}
                   </button>
                 ))}
               </div>
 
-              {/* 🔥 CUSTOM PLAN SECTION */}
               {isCustom && (
                 <div className="cm-custom">
+                  <div className="cm-divider">Customize your plan</div>
 
-                  <div className="cm-divider">
-                    ✨ Customize Your Plan
-                  </div>
-
-                  {/* DIET */}
                   <div className="cm-goals">
-                    {["Veg", "Non-Veg"].map((d) => (
+                    {["Veg", "Non-Veg"].map((dietType) => (
                       <button
                         type="button"
-                        key={d}
-                        className={`cm-goal ${form.dietType === d ? "active" : ""}`}
-                        onClick={() => setForm({ ...form, dietType: d })}
+                        key={dietType}
+                        className={`cm-goal ${form.dietType === dietType ? "active" : ""}`}
+                        onClick={() => setForm((prev) => ({ ...prev, dietType }))}
                       >
-                        {d}
+                        {dietType}
                       </button>
                     ))}
                   </div>
 
-                  {/* WEIGHT + HEIGHT */}
                   <div className="cm-row">
                     <input
                       type="number"
@@ -176,7 +151,6 @@ export default function ContactModal({ isOpen, onClose }) {
                       onChange={handleChange}
                       className="cm-input"
                     />
-
                     <input
                       type="number"
                       name="height"
@@ -187,38 +161,36 @@ export default function ContactModal({ isOpen, onClose }) {
                     />
                   </div>
 
-                  {/* MEALS */}
                   <div className="cm-goals">
-                    {[2, 3, 4].map((m) => (
+                    {[2, 3, 4].map((mealsPerDay) => (
                       <button
                         type="button"
-                        key={m}
-                        className={`cm-goal ${form.mealsPerDay === m ? "active" : ""}`}
-                        onClick={() => setForm({ ...form, mealsPerDay: m })}
+                        key={mealsPerDay}
+                        className={`cm-goal ${
+                          Number(form.mealsPerDay) === mealsPerDay ? "active" : ""
+                        }`}
+                        onClick={() => setForm((prev) => ({ ...prev, mealsPerDay }))}
                       >
-                        {m} Meals
+                        {mealsPerDay} Meals
                       </button>
                     ))}
                   </div>
 
-                  {/* BUDGET */}
                   <div className="cm-goals">
-                    {["1500", "2000", "3000+"].map((b) => (
+                    {["1500", "2000", "3000+"].map((budget) => (
                       <button
                         type="button"
-                        key={b}
-                        className={`cm-goal ${form.budget === b ? "active" : ""}`}
-                        onClick={() => setForm({ ...form, budget: b })}
+                        key={budget}
+                        className={`cm-goal ${form.budget === budget ? "active" : ""}`}
+                        onClick={() => setForm((prev) => ({ ...prev, budget }))}
                       >
-                        ₹{b}
+                        INR {budget}
                       </button>
                     ))}
                   </div>
-
                 </div>
               )}
 
-              {/* MESSAGE */}
               <textarea
                 name="message"
                 placeholder="Anything specific?"
@@ -229,28 +201,25 @@ export default function ContactModal({ isOpen, onClose }) {
 
               <div className="cm-actions">
                 <button type="submit" className="cm-submit" disabled={loading}>
-                  {loading ? "Sending..." : isCustom ? "Get My Custom Plan 🚀" : "Start My Plan 🚀"}
+                  {loading ? "Sending..." : isCustom ? "Submit Custom Plan" : "Submit Request"}
                 </button>
-
                 <a href="tel:+919999999999" className="cm-call">
                   Call Now
                 </a>
               </div>
-
             </form>
           </>
         ) : (
           <div className="cm-success">
-            <h2>✅ Request Sent</h2>
+            <h2>Request Sent</h2>
             <p>
               {isCustom
-                ? "Your custom plan is being prepared"
-                : "We'll contact you shortly"}
+                ? "Your custom plan request has been submitted."
+                : "Your request has been submitted successfully."}
             </p>
             <button onClick={handleClose}>Close</button>
           </div>
         )}
-
       </div>
     </div>
   );

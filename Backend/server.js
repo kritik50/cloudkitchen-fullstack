@@ -2,37 +2,41 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 
-
-const homepageRoutes = require("./routes/homepage");
-const whoIsForRoutes = require("./routes/whoIsFor");
-const whyChooseRoutes = require("./routes/whyChoose");
-const reviewsRoutes = require("./routes/reviews");
-const footerRoutes = require("./routes/footer");
-const navbarRoutes = require("./routes/navbar");
+const contentRoutes = require("./routes/content");
 const mealPlansRoutes = require("./routes/mealPlans");
+const menuRoutes = require("./routes/menu");
+const ordersRoutes = require("./routes/orders");
 const contactRoutes = require("./routes/contact");
 const customPlanRoutes = require("./routes/customPlan");
 
-
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN?.split(",") || "*",
+  })
+);
 app.use(express.json());
 
-app.use("/api/homepage", homepageRoutes);
-app.use("/api/homepage", whoIsForRoutes);
-app.use("/api/homepage", whyChooseRoutes);
-app.use("/api/homepage", reviewsRoutes);
-app.use("/api/homepage", footerRoutes);
-app.use("/api/homepage", navbarRoutes);
-app.use("/api/mealPlans", mealPlansRoutes);
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+app.use("/api/content", contentRoutes);
+app.use("/api/meal-plans", mealPlansRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/orders", ordersRoutes);
 app.use("/api", contactRoutes);
 app.use("/api", customPlanRoutes);
 
+// Backward compatibility with existing frontend calls.
+app.use("/api/mealPlans", mealPlansRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
-
-
-app.listen(5000, () => {
-  console.log("Server running at https://cloudkitchen-fullstack.onrender.com");
+app.listen(PORT, () => {
+  console.log(`CloudKitchen API listening on port ${PORT}`);
 });

@@ -13,12 +13,12 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FB_CLIENT_CERT_URL,
 };
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 const db = admin.firestore();
-
-console.log("🔥 Firebase connected");
 
 module.exports = db;

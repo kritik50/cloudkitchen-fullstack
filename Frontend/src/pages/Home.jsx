@@ -1,86 +1,59 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import ContactModal from "../components/ContactModal/ContactModal";
+import Footer from "../components/Footer";
+import ForWhom from "../components/ForWhom";
+import Hero from "../components/Hero";
+import MealCarosuel from "../components/MealCarosuel";
+import Navbar from "../components/Navbar";
+import Reviews from "../components/Reviews";
+import WhyChoose from "../components/WhyChoose";
 import { fetchHomepageData } from "../services/api";
 
-import Navbar from "../components/Navbar";
-import ContactModal from "../components/ContactModal/ContactModal"; // ✅ ADD
-
-import Hero from "../components/Hero";
-import ForWhom from "../components/ForWhom";
-import MealCarosuel from "../components/MealCarosuel";
-import WhyChoose from "../components/WhyChoose";
-import Reviews from "../components/Reviews";
-import Footer from "../components/Footer";
-import Loader from "../components/Loader";
-
-import {
-  NavbarSkeleton,
-  HeroSkeleton,
-  ForWhomSkeleton,
-  MealCarouselSkeleton,
-  WhyChooseSkeleton,
-  ReviewsSkeleton,
-} from "../components/Skeletons";
-
-const LOADER_MIN_MS = 2200;
+const fallbackContent = {
+  nav: {
+    brand: { name: "CloudKitchen", tagline: "Smart Meal Subscription" },
+  },
+};
 
 const Home = () => {
-  const [pageData, setPageData] = useState(null);
-  const [loaderDone, setLoaderDone] = useState(false);
-
-  // 🔥 MODAL STATE
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [content, setContent] = useState(fallbackContent);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    let active = true;
+
     fetchHomepageData()
-      .then((data) => setPageData(data))
-      .catch((err) => {
-        console.error("Homepage fetch failed:", err);
-        setPageData({});
+      .then((data) => {
+        if (active) {
+          setContent((prev) => ({ ...prev, ...data }));
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setContent(fallbackContent);
+        }
+      })
+      .finally(() => {
+        if (active) setLoading(false);
       });
+
+    return () => {
+      active = false;
+    };
   }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaderDone(true), LOADER_MIN_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!loaderDone) {
-    return <Loader />;
-  }
-
-  if (!pageData) {
-    return (
-      <>
-        <NavbarSkeleton />
-        <HeroSkeleton />
-        <ForWhomSkeleton />
-        <MealCarouselSkeleton />
-        <WhyChooseSkeleton />
-        <ReviewsSkeleton />
-      </>
-    );
-  }
 
   return (
     <>
-      {/* 🔥 PASS MODAL HANDLER */}
-      <Navbar
-        data={pageData.nav}
-        openModal={() => setIsModalOpen(true)}
-      />
+      <Navbar data={content.nav} openModal={() => setModalOpen(true)} />
+      <ContactModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
 
-      {/* 🔥 MODAL */}
-      <ContactModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
-
-      <Hero data={pageData.hero} />
-      <ForWhom data={pageData.wif} />
+      <Hero data={loading ? null : content.hero} />
+      <ForWhom data={loading ? null : content.wif} />
       <MealCarosuel />
-      <WhyChoose data={pageData.wcg} />
-      <Reviews data={pageData.rev} />
-      <Footer data={pageData.footer} />
+      <WhyChoose data={loading ? null : content.wcg} />
+      <Reviews data={loading ? null : content.rev} />
+      <Footer data={content.footer} />
     </>
   );
 };

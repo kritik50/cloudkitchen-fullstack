@@ -1,47 +1,85 @@
 import { useEffect, useState } from "react";
-import React from "react";
-import BASE_URL from "../services/api";
-import PlanCard from "../pages/PlanCard";
+import { useNavigate } from "react-router-dom";
+import PlanCard from "./PlanCard";
+import { useAppContext } from "../context/AppContext";
+import { fetchMealPlans } from "../services/api";
 
 const Plans = () => {
   const [plans, setPlans] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [billingCycle, setBillingCycle] = useState("weekly");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { addToCart, setSelectedPlan } = useAppContext();
 
   useEffect(() => {
-    const fetchPlans = async () => {
-      try {
-        const res = await fetch(`${BASE_URL}/api/mealPlans/plans`);
-        const data = await res.json();
-        if (Array.isArray(data)) setPlans(data);
-        else setPlans([]);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchPlans();
+    fetchMealPlans()
+      .then((data) => {
+        setPlans(Array.isArray(data) ? data : []);
+      })
+      .catch(() => {
+        setError("Unable to load meal plans right now.");
+      });
   }, []);
 
   const toggleCard = (index) => {
     setActiveIndex((prev) => (prev === index ? null : index));
   };
 
+  const handleAddPlan = (plan) => {
+    const selectedPrice = Number(
+      plan?.price?.[billingCycle] || plan?.price?.weekly || plan?.price || 0
+    );
+    const selected = { ...plan, billingCycle, selectedPrice };
+    setSelectedPlan(selected);
+
+    addToCart({
+      id: `plan-${plan.id || plan.title}-${billingCycle}`,
+      name: `${plan.title} (${billingCycle})`,
+      category: "Plan",
+      price: selectedPrice,
+      quantity: 1,
+      metadata: {
+        billingCycle,
+        planId: plan.id || plan.title,
+      },
+    });
+
+    navigate("/customize");
+  };
+
   return (
     <section className="plans-page">
-
-      {/* Ambient glow */}
       <div className="plans-glow plans-glow--1" />
       <div className="plans-glow plans-glow--2" />
 
-      {/* Header */}
       <div className="plans-header">
         <span className="plans-eyebrow">Meal Plans</span>
-        <h1 className="plans-title">Choose Your <em>Plan</em></h1>
+        <h1 className="plans-title">
+          Choose Your <em>Plan</em>
+        </h1>
         <p className="plans-subtitle">
-          Every plan is macro-calculated, freshly prepared daily, and built around your goal.
+          Select a base plan, customize meals, then checkout in a single flow.
         </p>
+
+        <div className="menu-tabs" style={{ justifyContent: "center", marginTop: "18px" }}>
+          {[
+            { id: "weekly", label: "Weekly" },
+            { id: "monthly", label: "Monthly" },
+          ].map((option) => (
+            <button
+              key={option.id}
+              className={`menu-tab ${billingCycle === option.id ? "active" : ""}`}
+              onClick={() => setBillingCycle(option.id)}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Grid — 2 columns */}
+      {error ? <p style={{ textAlign: "center", color: "#f87171" }}>{error}</p> : null}
+
       <div className="plans-grid">
         {plans.map((plan, index) => (
           <PlanCard
@@ -49,25 +87,27 @@ const Plans = () => {
             plan={plan}
             index={index}
             isActive={activeIndex === index}
+            billingCycle={billingCycle}
             onToggle={() => toggleCard(index)}
+            onChoose={() => handleAddPlan(plan)}
           />
         ))}
 
-        {/* Custom plan card — spans full width */}
         <div className="plan-card plan-card--custom">
           <div className="plan-custom-inner">
-            <div className="plan-custom-icon">⚡</div>
+            <div className="plan-custom-icon">C</div>
             <div>
               <h2 className="plan-custom-title">Build Your Own</h2>
               <p className="plan-custom-desc">
-                Have specific macros or dietary needs? We'll build a plan around you.
+                Fine-tune macros, diet preferences, and meal frequency.
               </p>
             </div>
           </div>
-          <button className="plan-custom-btn">Customise Plan →</button>
+          <button className="plan-custom-btn" onClick={() => navigate("/customize")}>
+            Customize Plan
+          </button>
         </div>
       </div>
-
     </section>
   );
 };

@@ -1,10 +1,11 @@
-// components/Hero.jsx
-import React from "react";
 import { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import bowl from "../assets/bowl.jpg";
 import { HeroSkeleton } from "./Skeletons";
 
 const Hero = ({ data }) => {
+  const navigate = useNavigate();
+
   if (!data) return <HeroSkeleton />;
 
   return (
@@ -23,7 +24,8 @@ const Hero = ({ data }) => {
           <h1 className="hero-title">{data.title}</h1>
 
           <p className="hero-sub">
-            {data.subtitle || "Performance-grade meals crafted for your macros — no compromises, no guesswork."}
+            {data.subtitle ||
+              "Performance-grade meals crafted for your macros with no guesswork."}
           </p>
 
           <div className="hero-stats">
@@ -39,11 +41,13 @@ const Hero = ({ data }) => {
           </div>
 
           <div className="hero-buttons">
-            <button className="primary-btn">
-              {data.primaryButton?.text}
-              <span className="primary-btn-arrow">→</span>
+            <button className="primary-btn" onClick={() => navigate("/plans")}>
+              {data.primaryButton?.text || "Choose Plan"}
+              <span className="primary-btn-arrow">{"->"}</span>
             </button>
-            <button className="secondary-btn">{data.secondaryButton?.text}</button>
+            <button className="secondary-btn" onClick={() => navigate("/menu")}>
+              {data.secondaryButton?.text || "View Menu"}
+            </button>
           </div>
         </div>
 
@@ -51,14 +55,14 @@ const Hero = ({ data }) => {
           <div className="hero-ring" />
           <img src={bowl} alt="High protein meal" className="hero-image-main" />
           <div className="hero-badge hero-badge--protein">
-            <span className="hero-badge-icon">⚡</span>
+            <span className="hero-badge-icon">P</span>
             <div>
               <span className="hero-badge-val">45g</span>
               <span className="hero-badge-lbl">Protein</span>
             </div>
           </div>
           <div className="hero-badge hero-badge--cal">
-            <span className="hero-badge-icon">🔥</span>
+            <span className="hero-badge-icon">K</span>
             <div>
               <span className="hero-badge-val">520</span>
               <span className="hero-badge-lbl">Kcal</span>
