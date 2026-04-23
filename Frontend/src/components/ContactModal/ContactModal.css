@@ -48,13 +48,13 @@
   right: 16px;
   background: transparent;
   border: none;
-  color: var(--text-body-dark);
+  color: var(--text-muted);
   font-size: 20px;
   cursor: pointer;
   line-height: 1;
 }
 .cm-close:hover {
-  color: var(--text-cream);
+  color: var(--text-main);
 }
 
 /* ── HEADER ── */
@@ -62,12 +62,12 @@
   font-family: 'Playfair Display', sans-serif;
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-cream);
+  color: var(--text-main);
   margin-bottom: 4px;
 }
 .cm-sub {
   font-size: 13px;
-  color: var(--text-body-dark);
+  color: var(--text-muted);
   margin-bottom: 20px;
 }
 
@@ -93,11 +93,11 @@
 .cm-textarea {
   box-sizing: border-box; /* FIX: Prevents bleeding off the right side */
   width: 100%;
-  background: var(--bg-dark);
+  background: var(--bg-base);
   border: 1px solid rgba(255, 107, 107, 0.15);
   padding: 11px 12px;
   border-radius: 8px;
-  color: var(--text-cream);
+  color: var(--text-main);
   font-size: 14px;
   outline: none;
   font-family: inherit;
@@ -121,7 +121,7 @@
 .cm-goal {
   background: transparent;
   border: 1px solid rgba(255, 107, 107, 0.2);
-  color: var(--text-body-dark);
+  color: var(--text-muted);
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
@@ -130,11 +130,11 @@
 }
 .cm-goal:hover {
   border-color: var(--primary);
-  color: var(--text-cream);
+  color: var(--text-main);
 }
 .cm-goal.active {
   background: var(--primary);
-  color: var(--bg-dark);
+  color: var(--bg-base);
   border: none;
   font-weight: 600;
 }
@@ -151,7 +151,7 @@
 }
 .cm-divider {
   font-size: 14px;
-  color: var(--text-cream);
+  color: var(--text-main);
   font-weight: 600;
 }
 
@@ -170,14 +170,14 @@
 }
 .cm-submit {
   flex: 1;
-  background: linear-gradient(135deg, var(--primary), var(--color-teal));
+  background: linear-gradient(135deg, var(--primary), var(--color-secondary));
   border: none;
   padding: 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
-  color: var(--bg-dark);
+  color: var(--bg-base);
   transition: all 0.2s;
 }
 .cm-submit:hover:not(:disabled) {
@@ -196,7 +196,7 @@
   border: 1px solid rgba(255, 107, 107, 0.3);
   border-radius: 8px;
   text-decoration: none;
-  color: var(--text-cream);
+  color: var(--text-main);
   font-size: 14px;
   transition: all 0.2s;
 }
@@ -211,16 +211,16 @@
   padding: 30px 10px;
 }
 .cm-success h2 {
-  color: var(--color-teal);
+  color: var(--color-secondary);
   margin-bottom: 8px;
 }
 .cm-success p {
-  color: var(--text-body-dark);
+  color: var(--text-muted);
   margin-bottom: 24px;
 }
 .cm-success button {
   background: var(--primary);
-  color: var(--bg-dark);
+  color: var(--bg-base);
   font-weight: 600;
   border: none;
   padding: 10px 24px;

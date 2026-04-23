@@ -1,7 +1,7 @@
 /* ── SECTION ── */
 .meals-section {
   padding: 120px 0 100px;
-  background-color: var(--bg-color, var(--bg-dark));
+  background-color: var(--bg-color, var(--bg-base));
   text-align: center;
   overflow: hidden;
   position: relative;
@@ -19,12 +19,12 @@
 
 .meals-fade--left {
   left: 0;
-  background: linear-gradient(to right, var(--bg-color, var(--bg-dark)) 20%, transparent);
+  background: linear-gradient(to right, var(--bg-color, var(--bg-base)) 20%, transparent);
 }
 
 .meals-fade--right {
   right: 0;
-  background: linear-gradient(to left, var(--bg-color, var(--bg-dark)) 20%, transparent);
+  background: linear-gradient(to left, var(--bg-color, var(--bg-base)) 20%, transparent);
 }
 
 /* ── HEADER ── */
@@ -39,7 +39,7 @@
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--primary, var(--color-teal));
+  color: var(--primary, var(--color-secondary));
   margin-bottom: 14px;
 }
 
@@ -50,13 +50,13 @@
   letter-spacing: -1px;
   line-height: 1.0;
   text-transform: uppercase;
-  color: var(--text-main, var(--text-cream));
+  color: var(--text-main, var(--text-main));
   margin-bottom: 14px;
 }
 
 .meals-title em {
   font-style: normal;
-  color: var(--primary, var(--color-teal));
+  color: var(--primary, var(--color-secondary));
 }
 
 .meals-subtitle {
@@ -122,7 +122,7 @@
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--primary, var(--color-teal));
+  color: var(--primary, var(--color-secondary));
   background: rgba(10, 11, 13, 0.72);
   border: 1px solid rgba(212, 245, 60, 0.25);
   backdrop-filter: blur(8px);
@@ -173,7 +173,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  color: var(--text-cream);
+  color: var(--text-main);
   margin-bottom: 6px;
   line-height: 1.1;
 }
@@ -219,7 +219,7 @@
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 16px;
   font-weight: 800;
-  color: var(--primary, var(--color-teal));
+  color: var(--primary, var(--color-secondary));
   line-height: 1;
 }
 

@@ -25,7 +25,7 @@
 /* ── NAVBAR SKELETON ── */
 .skel-navbar {
   height: 68px;
-  background: rgba(13, 17, 23, 0.95);
+  background: rgba(var(--bg-base-rgb), 0.85);
   border-bottom: 1px solid rgba(255, 107, 107, 0.08);
   display: flex;
   align-items: center;
