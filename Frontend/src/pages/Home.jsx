@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import ContactModal from "../components/ContactModal/ContactModal";
 import Footer from "../components/Footer";

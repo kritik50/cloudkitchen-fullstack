@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 
 const CART_STORAGE_KEY = "cloudkitchen_cart_v1";
 const PROFILE_STORAGE_KEY = "cloudkitchen_profile_v1";
