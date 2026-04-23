@@ -78,7 +78,7 @@ const Plans = () => {
         </div>
       </div>
 
-      {error ? <p style={{ textAlign: "center", color: "#f87171" }}>{error}</p> : null}
+      {error ? <p style={{ textAlign: "center", color: "var(--color-coral)" }}>{error}</p> : null}
 
       <div className="plans-grid">
         {plans.map((plan, index) => (

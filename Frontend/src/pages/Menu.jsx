@@ -44,7 +44,7 @@ export default function Menu() {
       </div>
 
       {loading ? <p>Loading menu...</p> : null}
-      {error ? <p style={{ color: "#f87171" }}>{error}</p> : null}
+      {error ? <p style={{ color: "var(--color-coral)" }}>{error}</p> : null}
 
       <div className="menu-grid">
         {filtered.map((item) => (

@@ -30,7 +30,7 @@ export default function Orders() {
       </div>
 
       {loading ? <p style={{ textAlign: "center" }}>Loading orders...</p> : null}
-      {error ? <p style={{ textAlign: "center", color: "#f87171" }}>{error}</p> : null}
+      {error ? <p style={{ textAlign: "center", color: "var(--color-coral)" }}>{error}</p> : null}
 
       <div className="plans-grid" style={{ gridTemplateColumns: "1fr", maxWidth: "980px" }}>
         {orders.map((order) => (

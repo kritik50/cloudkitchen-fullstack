@@ -26,7 +26,7 @@
 .skel-navbar {
   height: 68px;
   background: rgba(13, 17, 23, 0.95);
-  border-bottom: 1px solid rgba(193, 18, 31, 0.08);
+  border-bottom: 1px solid rgba(255, 107, 107, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;

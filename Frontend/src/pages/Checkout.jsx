@@ -139,7 +139,7 @@ export default function Checkout() {
             <span className="plan-meal-val">INR {totals.grandTotal}</span>
           </div>
 
-          {error ? <p style={{ color: "#f87171" }}>{error}</p> : null}
+          {error ? <p style={{ color: "var(--color-coral)" }}>{error}</p> : null}
           <button className="plan-custom-btn" onClick={placeOrder} disabled={placing}>
             {placing ? "Placing..." : "Place Order"}
           </button>
