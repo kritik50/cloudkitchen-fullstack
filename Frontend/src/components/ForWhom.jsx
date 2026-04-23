@@ -14,7 +14,7 @@ const ForWhom = ({ data }) => {
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [data]);
 
   if (!data) return <ForWhomSkeleton />;
 

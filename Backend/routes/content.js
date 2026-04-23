@@ -19,9 +19,20 @@ router.get("/homepage", async (req, res) => {
       keys.map((key) => db.collection("homepage").doc(homepageDocMap[key]).get())
     );
 
+    const cleanStrings = (obj) => {
+      if (typeof obj === 'string') return obj.trim();
+      if (Array.isArray(obj)) return obj.map(cleanStrings);
+      if (obj !== null && typeof obj === 'object') {
+        return Object.fromEntries(
+          Object.entries(obj).map(([k, v]) => [k, cleanStrings(v)])
+        );
+      }
+      return obj;
+    };
+
     const payload = keys.reduce((acc, key, index) => {
       const snap = snapshots[index];
-      acc[key] = snap.exists ? snap.data() : null;
+      acc[key] = snap.exists ? cleanStrings(snap.data()) : null;
       return acc;
     }, {});
 

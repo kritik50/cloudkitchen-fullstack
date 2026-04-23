@@ -16,7 +16,7 @@ const WhyChoose = ({ data }) => {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [data]);
 
   if (!data) return <WhyChooseSkeleton />;
 

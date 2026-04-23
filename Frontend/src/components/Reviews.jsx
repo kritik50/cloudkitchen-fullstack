@@ -13,7 +13,7 @@ const Reviews = ({ data }) => {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [data]);
 
   if (!data) return <ReviewsSkeleton />;
 

@@ -42,11 +42,11 @@ const Hero = ({ data }) => {
           </div>
 
           <div className="hero-buttons">
-            <button className="primary-btn" onClick={() => navigate("/plans")}>
+            <button className="primary-btn" onClick={() => navigate(data.primaryButton?.path || "/plans")}>
               {data.primaryButton?.text || "Choose Plan"}
               <span className="primary-btn-arrow">{"->"}</span>
             </button>
-            <button className="secondary-btn" onClick={() => navigate("/menu")}>
+            <button className="secondary-btn" onClick={() => navigate(data.secondaryButton?.path || "/menu")}>
               {data.secondaryButton?.text || "View Menu"}
             </button>
           </div>
