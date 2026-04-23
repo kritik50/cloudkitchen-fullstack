@@ -28,10 +28,11 @@ const Footer = ({ data }) => {
 
           <div className="footer-socials">
             {data.socials?.map((social) => {
-              const iconClass = iconMap[social.platform?.toLowerCase()];
+              const platformName = social.platform || social['platform '] || "";
+              const iconClass = iconMap[platformName.toLowerCase()];
               return (
                 <a
-                  key={social.platform}
+                  key={platformName}
                   href={social.url}
                   className="footer-social"
                   target="_blank"

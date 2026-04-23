@@ -4,8 +4,8 @@ const PlanCard = ({ plan, index, isActive, onToggle, onChoose, billingCycle }) =
   const getMeal = (key) => meals[key] || meals[key.toLowerCase()] || "-";
 
   const goalColors = {
-    0: { accent: "#7eb8f7", dim: "rgba(126,184,247,0.08)", border: "rgba(126,184,247,0.25)" },
-    1: { accent: "#5eead4", dim: "rgba(94,234,212,0.08)", border: "rgba(94,234,212,0.25)" },
+    0: { accent: "var(--primary)", dim: "rgba(193, 18, 31,0.08)", border: "rgba(193, 18, 31,0.25)" },
+    1: { accent: "var(--accent-blue)", dim: "rgba(93, 131, 166,0.08)", border: "rgba(93, 131, 166,0.25)" },
     2: { accent: "#f87171", dim: "rgba(248,113,113,0.08)", border: "rgba(248,113,113,0.25)" },
     3: { accent: "#a78bfa", dim: "rgba(167,139,250,0.08)", border: "rgba(167,139,250,0.25)" },
   };

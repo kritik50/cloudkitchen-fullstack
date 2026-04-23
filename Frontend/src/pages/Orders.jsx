@@ -39,7 +39,7 @@ export default function Orders() {
             className="plan-card"
             style={{
               cursor: "default",
-              borderColor: latestOrderId === order.id ? "#5eead4" : undefined,
+              borderColor: latestOrderId === order.id ? "var(--accent-blue)" : undefined,
             }}
           >
             <div className="plan-card-top">
