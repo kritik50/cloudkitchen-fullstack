@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import { createOrder } from "../services/api";
 
 export default function Checkout() {
   const {
@@ -9,21 +8,41 @@ export default function Checkout() {
     totals,
     removeFromCart,
     updateCartQty,
-    clearCart,
     profile,
-    setProfile,
+    auth,
+    hasDeliveryAddress,
+    activeAddress,
+    setAuthModalOpen,
+    setPrompt,
+    placeOrder: submitOrder,
   } = useAppContext();
   const [placing, setPlacing] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleProfileChange = (field, value) => {
-    setProfile({ ...profile, [field]: value });
-  };
-
   const placeOrder = async () => {
-    if (!profile.name || !profile.phone || !profile.address) {
-      setError("Please enter name, phone, and address before checkout.");
+    if (!auth.isAuthenticated) {
+      setPrompt({
+        open: true,
+        title: "Login / Register to continue",
+        message: "Please sign in before checkout.",
+      });
+      setAuthModalOpen(true);
+      return;
+    }
+
+    if (!hasDeliveryAddress) {
+      setPrompt({
+        open: true,
+        title: "Add delivery address to continue",
+        message: "Your account is active, but we need one saved address before ordering.",
+      });
+      setAuthModalOpen(true);
+      return;
+    }
+
+    if (!profile.name || !profile.phone) {
+      setError("Please update your profile details before placing the order.");
       return;
     }
 
@@ -36,22 +55,8 @@ export default function Checkout() {
     setPlacing(true);
 
     try {
-      const order = await createOrder({
-        customer: profile,
-        items: cartItems.map((item) => ({
-          id: item.id,
-          name: item.name,
-          category: item.category,
-          unitPrice: item.unitPrice,
-          quantity: item.quantity,
-          metadata: item.metadata,
-        })),
-        totals,
-        notes: "Order placed from web checkout",
-      });
-
-      clearCart();
-      navigate(`/orders?phone=${encodeURIComponent(profile.phone)}&orderId=${order.id}`);
+      const orderId = await submitOrder({ notes: "Order placed from checkout" });
+      navigate(`/orders?orderId=${orderId}`);
     } catch (apiError) {
       setError(apiError.message || "Failed to place order.");
     } finally {
@@ -60,89 +65,105 @@ export default function Checkout() {
   };
 
   return (
-    <section className="plans-page">
-      <div className="plans-header" style={{ marginBottom: "24px" }}>
-        <span className="plans-eyebrow">Checkout</span>
-        <h1 className="plans-title">
-          Confirm <em>Order</em>
-        </h1>
-      </div>
-
-      <div className="plans-grid" style={{ gridTemplateColumns: "1.2fr 0.8fr", maxWidth: "1200px" }}>
-        <div className="plan-card" style={{ cursor: "default" }}>
-          <h2 className="plan-card-title">Delivery Details</h2>
-
-          <input
-            className="cm-input"
-            placeholder="Name"
-            value={profile.name}
-            onChange={(event) => handleProfileChange("name", event.target.value)}
-          />
-          <input
-            className="cm-input"
-            placeholder="Phone"
-            value={profile.phone}
-            onChange={(event) => handleProfileChange("phone", event.target.value)}
-          />
-          <input
-            className="cm-input"
-            placeholder="Email"
-            value={profile.email}
-            onChange={(event) => handleProfileChange("email", event.target.value)}
-          />
-          <textarea
-            className="cm-textarea"
-            placeholder="Delivery Address"
-            value={profile.address}
-            onChange={(event) => handleProfileChange("address", event.target.value)}
-          />
+    <section className="checkout-page">
+      <div className="container">
+        <div className="checkout-page__header">
+          <span className="eyebrow">Checkout</span>
+          <h1 className="section-title checkout-page__title">Review and place your order</h1>
+          <p className="section-copy">
+            Quick summary first. Delivery details stay compact so checkout remains fast.
+          </p>
         </div>
 
-        <div className="plan-card" style={{ cursor: "default" }}>
-          <h2 className="plan-card-title">Cart Summary</h2>
+        <div className="checkout-page__layout">
+          <div className="checkout-panel checkout-panel--compact">
+            <h2 className="checkout-panel__title">Delivery details</h2>
+            <p className="checkout-panel__copy">
+              Pulled from your profile sidebar selection.
+            </p>
 
-          {cartItems.length === 0 ? <p className="plan-card-desc">No items added yet.</p> : null}
-
-          {cartItems.map((item, index) => (
-            <div key={`${item.id}-${index}`} className="plan-meal-row">
-              <div>
-                <div className="plan-meal-lbl">{item.name}</div>
-                <div className="plan-meal-val">INR {item.unitPrice}</div>
+            <div className="checkout-panel__group checkout-panel__group--readonly">
+              <div className="readonly-row">
+                <span>Name</span>
+                <strong>{profile.name || auth.name || "Not set"}</strong>
               </div>
-              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-                <input
-                  type="number"
-                  min={1}
-                  value={item.quantity}
-                  className="cm-input"
-                  style={{ width: "72px" }}
-                  onChange={(event) => updateCartQty(index, event.target.value)}
-                />
-                <button className="menu-btn" onClick={() => removeFromCart(index)}>
-                  Remove
-                </button>
+              <div className="readonly-row">
+                <span>Phone</span>
+                <strong>{profile.phone || auth.phone || "Not set"}</strong>
+              </div>
+              <div className="readonly-row">
+                <span>Email</span>
+                <strong>{profile.email || auth.email || "Not set"}</strong>
+              </div>
+              <div className="readonly-row">
+                <span>Delivery address</span>
+                <strong>{activeAddress?.line1 || "Add an address in profile drawer"}</strong>
               </div>
             </div>
-          ))}
-
-          <div className="plan-divider" />
-          <div className="plan-meal-row">
-            <span className="plan-meal-lbl">Subtotal</span>
-            <span className="plan-meal-val">INR {totals.subtotal}</span>
-          </div>
-          <div className="plan-meal-row">
-            <span className="plan-meal-lbl">Delivery</span>
-            <span className="plan-meal-val">INR {totals.deliveryFee}</span>
-          </div>
-          <div className="plan-meal-row">
-            <span className="plan-meal-lbl">Grand Total</span>
-            <span className="plan-meal-val">INR {totals.grandTotal}</span>
           </div>
 
-          {error ? <p style={{ color: "var(--color-coral)" }}>{error}</p> : null}
-          <button className="plan-custom-btn" onClick={placeOrder} disabled={placing}>
-            {placing ? "Placing..." : "Place Order"}
-          </button>
+          <aside className="checkout-panel checkout-panel--summary">
+            <h2 className="checkout-panel__title">Cart summary</h2>
+            <p className="checkout-panel__copy">A clear summary keeps the last step calm and trustworthy.</p>
+
+            <div className="checkout-list checkout-list--scroll">
+              {cartItems.length === 0 ? <p className="empty-copy">No items added yet.</p> : null}
+
+              {cartItems.map((item, index) => (
+                <div key={`${item.id}-${index}`} className="cart-row">
+                  <div>
+                    <h3 className="cart-row__title">{item.name}</h3>
+                    <div className="cart-row__meta">
+                      <span className="chip">{item.category}</span>
+                      <span className="chip">INR {item.unitPrice}</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="cart-row__price">INR {Number(item.unitPrice) * Number(item.quantity)}</div>
+                    <div className="checkout-panel__actions" style={{ marginTop: 10 }}>
+                      <input
+                        type="number"
+                        min={1}
+                        className="qty-input"
+                        value={item.quantity}
+                        onChange={(event) => updateCartQty(index, event.target.value)}
+                      />
+                      <button className="btn btn--secondary" type="button" onClick={() => removeFromCart(index)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="checkout-panel__totals">
+              <div className="checkout-panel__totals-row">
+                <span>Subtotal</span>
+                <strong>INR {totals.subtotal}</strong>
+              </div>
+              <div className="checkout-panel__totals-row">
+                <span>Delivery</span>
+                <strong>INR {totals.deliveryFee}</strong>
+              </div>
+              <div className="checkout-panel__totals-row">
+                <span>Grand total</span>
+                <strong>INR {totals.grandTotal}</strong>
+              </div>
+            </div>
+
+            {error ? <p className="error-copy">{error}</p> : null}
+
+            <div className="checkout-panel__actions" style={{ marginTop: 20 }}>
+              <button className="btn btn--ghost" type="button" onClick={() => navigate("/menu")}>
+                Add More Meals
+              </button>
+              <button className="btn btn--primary" type="button" onClick={placeOrder} disabled={placing}>
+                {placing ? "Placing..." : "Place Order"}
+              </button>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

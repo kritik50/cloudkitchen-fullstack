@@ -83,6 +83,20 @@ cd cloudkitchen-fullstack
    # App runs on http://localhost:5173
    ```
 
+### Firebase Auth Checklist (Required)
+If auth calls fail with `auth/configuration-not-found`, the Firebase project auth service is not initialized yet.
+
+1. Open Firebase Console for your project
+2. Go to `Build > Authentication`
+3. Click `Get started`
+4. Enable `Email/Password` under `Sign-in method`
+5. Add authorized domains (`localhost`, staging, production)
+6. Run frontend doctor check:
+   ```bash
+   cd Frontend
+   npm run auth:doctor
+   ```
+
 ## API Overview (Backend)
 - `GET /api/menu`: Retrieve available menu items.
 - `POST /api/orders`: Submit a new customer order.

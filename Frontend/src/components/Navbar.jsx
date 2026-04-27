@@ -1,74 +1,62 @@
-import React from "react";
-import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 
-const DEFAULT_NAV = {
-  brand: {
-    name: "CloudKitchen",
-    tagline: "Smart Meal Subscription",
-  },
-};
-
-const LINKS = [
-  { label: "Home", path: "/" },
-  { label: "Menu", path: "/menu" },
-  { label: "Plans", path: "/plans" },
-  { label: "Customize", path: "/customize" },
-  { label: "Orders", path: "/orders" },
-  { label: "Profile", path: "/profile" },
+const PRE_AUTH_LINKS = [
+  { label: "Menu", href: "/menu" },
+  { label: "Explore", href: "/#meals" },
 ];
 
-export default function Navbar({ data, openModal }) {
-  const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+export default function Navbar() {
   const navigate = useNavigate();
-  const { cartItems } = useAppContext();
-
-  const navData = data || DEFAULT_NAV;
-  const cartCount = useMemo(
-    () => cartItems.reduce((sum, item) => sum + Number(item.quantity), 0),
-    [cartItems]
-  );
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  const { cartItems, auth, setAuthModalOpen, setSidebarOpen } = useAppContext();
+  const cartCount = cartItems.reduce((sum, item) => sum + Number(item.quantity), 0);
 
   return (
-    <nav className={`nb${scrolled ? " nb--scrolled" : ""}`}>
-      <Link to="/" className="nb-logo">
-        <span className="nb-logo-wordmark">{navData.brand?.name || "CloudKitchen"}</span>
-        <span className="nb-logo-sub">{navData.brand?.tagline || "Meal Delivery"}</span>
-      </Link>
+    <header className="topbar">
+      <div className="container topbar__inner">
+        <Link className="brand" to="/">
+          <span className="brand__name">GymBites</span>
+          <span className="brand__tag">Macros-first meals for stronger routines</span>
+        </Link>
 
-      <ul className="nb-links">
-        {LINKS.map((link) => (
-          <li key={link.path}>
-            <Link
-              to={link.path}
-              className={
-                location.pathname === link.path ? "nb-link nb-link--active" : "nb-link"
-              }
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-        <li>
-          <button className="nb-link" onClick={() => openModal?.()}>
-            Contact Us
-          </button>
-        </li>
-      </ul>
+        <nav className="topbar__nav" aria-label="Primary">
+          {!auth.isAuthenticated ? (
+            PRE_AUTH_LINKS.map((link) =>
+              link.href.startsWith("/#") ? (
+                <a key={link.href} href={link.href}>
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} to={link.href}>
+                  {link.label}
+                </Link>
+              )
+            )
+          ) : (
+            <>
+              <Link to="/menu">Menu</Link>
+              <Link to="/orders">Track Order</Link>
+            </>
+          )}
+        </nav>
 
-      <div className="nb-right">
-        <button className="order-btn" onClick={() => navigate("/checkout")}>
-          Checkout {cartCount > 0 ? `(${cartCount})` : ""}
-        </button>
+        <div className="topbar__actions">
+          {!auth.isAuthenticated ? (
+            <button className="btn btn--primary" type="button" onClick={() => setAuthModalOpen(true)}>
+              Login / Register
+            </button>
+          ) : (
+            <>
+              <button className="cart-chip cart-chip--clickable" type="button" onClick={() => navigate("/checkout")}>
+                Cart {cartCount}
+              </button>
+              <button className="profile-icon" type="button" onClick={() => setSidebarOpen(true)}>
+                {auth.name?.trim()?.[0] || "G"}
+              </button>
+            </>
+          )}
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }
